@@ -17,15 +17,24 @@ Plug 'EdenEast/nightfox.nvim'
 " etc.
 "************
 Plug 'vim-scripts/DoxygenToolkit.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'majutsushi/tagbar'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'Yggdroot/indentLine'
-Plug 'spf13/vim-autoclose'
-Plug 'preservim/nerdcommenter'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+"Plug 'preservim/tagbar'
+"Plug 'preservim/nerdtree'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+"Plug 'Yggdroot/indentLine'
+"Plug 'spf13/vim-autoclose'
+"Plug 'preservim/nerdcommenter'
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons' " 파일 아이콘 표시를 위해 필요 (선택 사항)
+Plug 'stevearc/aerial.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'numToStr/Comment.nvim'
+Plug 'hrsh7th/nvim-cmp'               " 자동 완성 플러그인
+Plug 'hrsh7th/cmp-nvim-lsp'           " LSP 소스 연결
+Plug 'windwp/nvim-autopairs'          " 자동 괄호 닫기 플러그인
 
 "*************
 " Programming Language
@@ -70,8 +79,9 @@ Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 "*************
 Plug 'github/copilot.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'xuyuanp/nerdtree-git-plugin'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'xuyuanp/nerdtree-git-plugin'
+Plug 'lewis6991/gitsigns.nvim'
 
 call plug#end()
 
@@ -116,13 +126,16 @@ set fileformats=unix,dos,mac
 "*****************************************************************************
 syntax on
 set ruler
-" set number
-" set relativenumber
+set number
+set relativenumber
+nnoremap <leader>tn :set nonumber norelativenumber<CR>
+nnoremap <leader>tnr :set number relativenumber<CR>
 
-" Normal 모드에서 cursorline 활성화
-autocmd InsertLeave * set cursorline
-" Insert 모드에서 cursorline 비활성화
-autocmd InsertEnter * set nocursorline
+
+"" Normal 모드에서 cursorline 활성화
+"autocmd InsertLeave * set cursorline
+"" Insert 모드에서 cursorline 비활성화
+"autocmd InsertEnter * set nocursorline
 
 " Better command line completion 
 set wildmenu
@@ -132,11 +145,16 @@ nnoremap <silent> <leader>sh :terminal<CR>
 tnoremap <Esc> <C-\><C-n>
 
 set mouse=
-set clipboard+=unnamedplus
+set clipboard+=unnamed,unnamedplus
+"set clipboard+=unnamedplus
 " "" Copy/Paste/Cut
 " if has('unnamedplus')
   " set clipboard=unnamed,unnamedplus
 " endif
+vnoremap <silent> <leader>y "+y
+nnoremap <silent> <leader>p "+p
+
+nnoremap <silent> <leader>y :echo @"<CR>
 
 " buffer switching
 map <silent> <leader>z :bprev<CR>
@@ -149,14 +167,13 @@ set termguicolors
 colorscheme carbonfox
 set background=dark
 
-" vim-airline theme
-let g:airline_theme='alduin'
-" vim-airline
-let g:airline#extensions#tabline#enabled = 1              " vim-airline ë²í¼ ëª©ë¡ ì¼ê¸°
-let g:airline#extensions#tabline#fnamemod = ':t'          " vim-airline ë²í¼ ëª©ë¡ íì¼ëªë§ ì¶ë ¥
-let g:airline#extensions#tabline#buffer_nr_show = 1       " buffer numberë¥¼ ë³´ì¬ì¤ë¤
-let g:airline#extensions#tabline#buffer_nr_format = '%s:' " buffer number format
-
+"" vim-airline theme
+"let g:airline_theme='alduin'
+"" vim-airline
+"let g:airline#extensions#tabline#enabled = 1              " vim-airline ë²í¼ ëª©ë¡ ì¼ê¸°
+"let g:airline#extensions#tabline#fnamemod = ':t'          " vim-airline ë²í¼ ëª©ë¡ íì¼ëªë§ ì¶ë ¥
+"let g:airline#extensions#tabline#buffer_nr_show = 1       " buffer numberë¥¼ ë³´ì¬ì¤ë¤
+"let g:airline#extensions#tabline#buffer_nr_format = '%s:' " buffer number format
 
 " DoxygenToolkit
 let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
@@ -167,11 +184,12 @@ let g:DoxygenToolkit_blockFooter="---------------------------------"
 let g:DoxygenToolkit_authorName="Mathias Lorente"
 let g:DoxygenToolkit_licenseTag="My own license"
 
-" NerdTree
-nnoremap <C-n> :NERDTreeToggle<CR>
-
-" Tagbar
-nnoremap <C-t> :TagbarToggle<CR>
+" old version"
+"" NerdTree
+"nnoremap <C-n> :NERDTreeToggle<CR>
+"
+"" Tagbar
+"nnoremap <C-t> :TagbarToggle<CR>
 
 " " cpp-enhanced-highlight
 " let g:cpp_class_scope_highlight = 1
@@ -214,22 +232,22 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 
-" indent guide
-let g:indent_guides_enable_on_vim_startup = 0
-" indent line
-let g:indentLine_enabled = 1
-""let g:indentLine_setColors = 0
+"" indent guide
+"let g:indent_guides_enable_on_vim_startup = 0
+"" indent line
+"let g:indentLine_enabled = 1
+"""let g:indentLine_setColors = 0
 
 " vim-autopep8
 autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
 let g:autopep8_ignore="E501,W293"
 
-" vim-nerdcommenter
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-" learder + c + c: commnet toggle
-vnoremap <leader>cc :call NERDComment(0, 'toggle')<CR>
-
+"" vim-nerdcommenter
+"let g:NERDSpaceDelims = 1
+"let g:NERDCompactSexyComs = 1
+"" learder + c + c: commnet toggle
+"vnoremap <leader>cc :call NERDComment(0, 'toggle')<CR>
+"
 
 " " nord theme
 " let g:nord_contrast = v:true
@@ -280,7 +298,6 @@ mason_lspconfig.setup {
         "html",          -- HTML
         "phpactor",      -- PHP
         "yamlls",        -- YAML
-        "eslint",        -- JavaScript/TypeScript
         "bashls",        -- Bash
     }
 }
@@ -305,6 +322,7 @@ local servers = {
     html = {},                   -- HTML
     phpactor = {},               -- PHP
     yamlls = {},                 -- YAML
+    bashls = {},                 -- Bash
 }
 
 for server, config in pairs(servers) do
@@ -364,3 +382,120 @@ EOF
         " program = "${file}",
     " },
 " }
+"
+nnoremap <silent> <C-n> :NvimTreeToggle<CR>
+nnoremap <silent> <C-t> :AerialToggle<CR>
+" nvim-tree 설정
+lua << EOF
+require("nvim-tree").setup {
+    view = {
+        width = 30,          -- 탐색기 너비 설정
+        side = "left",       -- 탐색기 위치 (left, right)
+    },
+    filters = {
+        dotfiles = true,     -- 숨김 파일 표시 여부
+    },
+    renderer = {
+        icons = {
+            show = {
+                file = true,
+                folder = true,
+                folder_arrow = true,
+                git = true,
+            },
+        },
+    },
+}
+EOF
+
+lua << EOF
+require("aerial").setup {
+    backends = { "lsp", "treesitter", "markdown" }, -- 백엔드 설정
+    layout = {
+        default_direction = "float", -- 창 위치 (right, left)
+        width = 30,                        -- 창 너비
+    },
+    show_guides = true,                    -- 계층 구조 가이드라인 표시
+    filter_kind = {                        -- 표시할 심볼 종류 필터링
+        "Class",
+        "Function",
+        "Method",
+        "Variable",
+    },
+}
+EOF
+lua << EOF
+require('lualine').setup {
+    options = {
+        theme = 'papercolor_dark',   -- 테마 설정 (gruvbox, onedark 등)
+        section_separators = {'', ''},  -- 섹션 구분 기호
+        component_separators = {'', ''}
+    },
+    sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch', 'diff', 'diagnostics'},
+        lualine_c = {'filename'},
+        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
+    }
+}
+EOF
+lua << EOF
+require("ibl").setup {
+    indent = {
+        char = "│",  -- Indent 가이드 문자
+    },
+    scope = {
+        enabled = true,  -- 컨텍스트 강조 활성화
+        show_start = true,
+        show_end = true,
+    },
+    exclude = {
+        filetypes = { "help", "dashboard", "terminal" },  -- 제외할 파일 유형
+    },
+}
+EOF
+lua << EOF
+require('Comment').setup {
+    mappings = {
+        basic = true,    -- 기본 키 매핑 사용
+        extra = true,    -- 추가 키 매핑 사용
+    },
+}
+EOF
+lua << EOF
+-- nvim-autopairs 기본 설정
+require("nvim-autopairs").setup {
+    check_ts = true, -- Treesitter 통합
+    disable_filetype = { "TelescopePrompt", "vim" }, -- 제외할 파일 유형
+}
+
+-- nvim-cmp와 nvim-autopairs 연동
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp = require('cmp')
+
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
+EOF
+lua << EOF
+require('gitsigns').setup {
+    signs = {
+        add          = { text = '│' },
+        change       = { text = '│' },
+        delete       = { text = '_' },
+        topdelete    = { text = '‾' },
+        changedelete = { text = '~' },
+    },
+    current_line_blame = true, -- 현재 줄의 blame 표시
+}
+
+-- 하이라이트 설정
+vim.api.nvim_set_hl(0, 'GitSignsAdd', { link = 'DiffAdd' })
+vim.api.nvim_set_hl(0, 'GitSignsChange', { link = 'DiffChange' })
+vim.api.nvim_set_hl(0, 'GitSignsDelete', { link = 'DiffDelete' })
+vim.api.nvim_set_hl(0, 'GitSignsTopdelete', { link = 'DiffDelete' })
+vim.api.nvim_set_hl(0, 'GitSignsChangedelete', { link = 'DiffChange' })
+EOF

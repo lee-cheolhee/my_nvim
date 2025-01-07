@@ -30,6 +30,7 @@ Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons' " 파일 아이콘 표시를 위해 필요 (선택 사항)
 Plug 'stevearc/aerial.nvim'
 Plug 'nvim-lualine/lualine.nvim'
+Plug 'akinsho/bufferline.nvim', {'tag': '*', 'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'hrsh7th/nvim-cmp'               " 자동 완성 플러그인
@@ -82,6 +83,11 @@ Plug 'tpope/vim-fugitive'
 " Plug 'airblade/vim-gitgutter'
 " Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'lewis6991/gitsigns.nvim'
+
+"*************
+" ros plugin
+"*************
+Plug 'thibthib18/ros-nvim'
 
 call plug#end()
 
@@ -156,10 +162,10 @@ nnoremap <silent> <leader>p "+p
 
 nnoremap <silent> <leader>y :echo @"<CR>
 
-" buffer switching
-map <silent> <leader>z :bprev<CR>
-map <silent> <leader>x :bnext<CR>
-map <silent> <leader>d :bdelete<CR>
+" " buffer switching
+" map <silent> <leader>z :bprev<CR>
+" map <silent> <leader>x :bnext<CR>
+" map <silent> <leader>d :bdelete<CR>
 
 " " colorscheme
 " let no_buffers_menu=1
@@ -330,27 +336,13 @@ for server, config in pairs(servers) do
     lspconfig[server].setup(config)
 end
 
-local telescope = require('telescope')
-
-telescope.setup {
-    defaults = {
-        file_ignore_patterns = { "node_modules", ".git" },
-        mappings = {
-            i = {
-                ["<C-n>"] = require('telescope.actions').move_selection_next,
-                ["<C-p>"] = require('telescope.actions').move_selection_previous,
-            },
-        },
-    },
+require('lspconfig').clangd.setup {
+    cmd = { "clangd", "--compile-commands-dir=~/catkin_ws" },
+    root_dir = require('lspconfig/util').root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+    on_attach = on_attach,
 }
-
--- Telescope 명령어에 키맵 연결
-vim.api.nvim_set_keymap('n', '<leader>ff', '<Cmd>Telescope find_files<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fg', '<Cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fb', '<Cmd>Telescope buffers<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fh', '<Cmd>Telescope help_tags<CR>', { noremap = true, silent = true })
-
 EOF
+
 " local dap = require('dap')
 " local dapui = require('dapui')
 
@@ -389,7 +381,7 @@ nnoremap <silent> <C-t> :AerialToggle<CR>
 lua << EOF
 require("nvim-tree").setup {
     view = {
-        width = 20,          -- 탐색기 너비 설정
+        width = 30,          -- 탐색기 너비 설정
         side = "left",       -- 탐색기 위치 (left, right)
     },
     filters = {
@@ -412,8 +404,8 @@ lua << EOF
 require("aerial").setup {
     backends = { "lsp", "treesitter", "markdown" }, -- 백엔드 설정
     layout = {
-        default_direction = "float", -- 창 위치 (right, left)
-        width = 30,                        -- 창 너비
+        default_direction = "prefer_right", -- 창 위치 (right, left)
+        width = 40,                        -- 창 너비
     },
     show_guides = true,                    -- 계층 구조 가이드라인 표시
     filter_kind = {                        -- 표시할 심볼 종류 필터링
@@ -427,20 +419,28 @@ EOF
 lua << EOF
 require('lualine').setup {
     options = {
-        theme = 'papercolor_dark',   -- 테마 설정 (gruvbox, onedark 등)
-        section_separators = {'', ''},  -- 섹션 구분 기호
-        component_separators = {'', ''}
+        theme = 'papercolor_dark',
+        -- section_separators = {'', ''},  -- 섹션 구분 기호
+        -- component_separators = {'', ''}  -- 컴포넌트 구분 기호
+        section_separators = '',  -- 섹션 구분 기호 비활성화
+        component_separators = '' -- 컴포넌트 구분 기호 비활성화
     },
     sections = {
         lualine_a = {'mode'},
         lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename'},
+        lualine_c = {
+            {
+                'filename',
+                path = 2
+            }
+                    },
         lualine_x = {'encoding', 'fileformat', 'filetype'},
         lualine_y = {'progress'},
         lualine_z = {'location'}
-    }
+    },
 }
 EOF
+
 lua << EOF
 require("ibl").setup {
     indent = {
@@ -517,3 +517,117 @@ require("catppuccin").setup({
 })
 vim.cmd.colorscheme "catppuccin"
 EOF
+
+lua << EOF
+local vim_utils = require "ros-nvim.vim-utils"
+require 'ros-nvim'.setup {
+  -- path to your catkin workspace
+  catkin_ws_path = "~/catkin_ws",
+
+  -- make program (e.g. "catkin_make" or "catkin build" )
+  catkin_program = "catkin build",
+
+  -- method for opening terminal for e.g. catkin_make: utils.open_new_buffer or custom function
+  open_terminal_method = function()
+      vim_utils.open_split()
+  end,
+
+  -- terminal height for build / test, only valid with `open_terminal_method=open_split()`
+  terminal_height = 8,
+
+  -- Picker mappings
+  node_picker_mappings = function(map)
+      map("n", "<c-k>", vim_utils.open_terminal_with_format_cmd_entry("rosnode kill %s"))
+      map("i", "<c-k>", vim_utils.open_terminal_with_format_cmd_entry("rosnode kill %s"))
+  end,
+  topic_picker_mappings = function(map)
+      local cycle_previewers = function(prompt_bufnr)
+          local picker = action_state.get_current_picker(prompt_bufnr)
+          picker:cycle_previewers(1)
+      end
+      map("n", "<c-b>", vim_utils.open_terminal_with_format_cmd_entry("rostopic pub %s"))
+      map("i", "<c-b>", vim_utils.open_terminal_with_format_cmd_entry("rostopic pub %s"))
+      map("n", "<c-e>", cycle_previewers)
+      map("i", "<c-e>", cycle_previewers)
+  end,
+  service_picker_mappings = function(map)
+      map("n", "<c-e>", vim_utils.open_terminal_with_format_cmd_entry("rosservice call %s"))
+      map("i", "<c-e>", vim_utils.open_terminal_with_format_cmd_entry("rosservice call %s"))
+  end,
+  param_picker_mappings = function(map)
+      map("n", "<c-e>", vim_utils.open_terminal_with_format_cmd_entry("rosparam set %s"))
+      map("i", "<c-e>", vim_utils.open_terminal_with_format_cmd_entry("rosparam set %s"))
+  end,
+}
+EOF
+
+lua << EOF
+local telescope = require('telescope')
+
+telescope.setup {
+    defaults = {
+        file_ignore_patterns = { "node_modules", ".git", "build", "devel", "install" }, -- 무시할 파일 및 디렉터리
+        mappings = {
+            i = {
+                ["<C-n>"] = require('telescope.actions').move_selection_next,
+                ["<C-p>"] = require('telescope.actions').move_selection_previous,
+            },
+        },
+    },
+}
+
+-- Telescope 명령어에 키맵 연결
+vim.api.nvim_set_keymap('n', '<leader>ff', '<Cmd>Telescope find_files<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fg', '<Cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fb', '<Cmd>Telescope buffers<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fh', '<Cmd>Telescope help_tags<CR>', { noremap = true, silent = true })
+
+-- Fuction for selecting buffers and performing vimdiff
+function DiffBuffers()
+    require('telescope.builtin').buffers {
+        attach_mappings = function(_, map)
+            local actions = require('telescope.actions')
+            local state = require('telescope.actions.state')
+
+            local buffer_seclection = {}
+
+            map('i', '<CR>', function(prompt_bufnr)
+                local selection = state.get_selected_entry()
+                table.insert(buffer_seclection, selection.bufnr)
+
+                if #buffer_seclection == 2 then
+                    actions.close(prompt_bufnr)
+                    vim.cmd('vsplit')
+                    vim.cmd('buffer ' .. buffer_seclection[1])
+                    vim.cmd('diffthis')
+                    vim.cmd('wincmd w')
+                    vim.cmd('buffer ' .. buffer_seclection[2])
+                    vim.cmd('diffthis')
+                else
+                    actions.move_selection_next(prompt_bufnr)
+                end
+            end)
+            return true
+        end
+    }
+    end
+
+    vim.api.nvim_set_keymap('n', '<leader>fd', ':lua DiffBuffers()<CR>', { noremap = true, silent = true })
+EOF
+
+lua << EOF
+require('bufferline').setup {
+    options = {
+        numbers = "ordinal", -- 버퍼 번호를 정렬
+        diagnostics = "nvim_lsp", -- LSP 진단 정보 표시
+        show_buffer_close_icons = false, -- 버퍼 닫기 버튼 표시
+        show_close_icon = true, -- 전체 닫기 버튼 비활성화
+        separator_style = "slant", -- 버퍼 사이의 구분선 스타일
+    }
+}
+EOF
+map <silent> <leader>z :BufferLineCyclePrev<CR>
+map <silent> <leader>x :BufferLineCycleNext<CR>
+map <silent> <leader>d :bdelete<CR>
+map <silent> <leader>p :BufferLinePick<CR>
+map <silent> <leader>pd :BufferLinePickClose<CR>

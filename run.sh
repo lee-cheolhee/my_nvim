@@ -2,6 +2,12 @@
 
 PROJECT_NAME="chlee"
 REPO_NAME="nvim"
+TAG="latest"
+
+CONTAINER_NAME="hermai_edit"
+ROS_VOLUME="ros-noetic"
+DEVEL_VOLUME="hermai_devel"
+SRC_PATH="/home/chlee/Projects/Iocrops/rdv_hermai"
 
 IP_ADDR=localhost
 HOSTNAME=$(hostname)
@@ -23,9 +29,9 @@ ENVS="--env=QT_X11_NO_MITSHM=1
 
 XSOCK=/tmp/.X11-unix
 XAUTH=$HOME/.Xauthority
-VOLUMES="--volume=ros-noetic:/opt/ros/noetic:rw
-         --volume=amr_devel:/home/rdv/catkin_ws/devel:ro
-         --volume=/home/chlee/Projects/MsAutotech/rdv_ms_amr:/home/rdv/catkin_ws/src:rw"
+VOLUMES="--volume=$ROS_VOLUME:/opt/ros/noetic:rw
+         --volume=$DEVEL_VOLUME:/home/rdv/catkin_ws/devel:ro
+         --volume=$SRC_PATH:/home/rdv/catkin_ws/src:rw"
 
 
 docker run \
@@ -35,6 +41,6 @@ docker run \
     --privileged \
     --net host \
     --ipc host \
-    --workdir /home/rdv/catkin_ws \
-    --name amr_edit \
-    $PROJECT_NAME/$REPO_NAME:latest
+    --workdir /home/rdv/catkin_ws/src \
+    --name $CONTAINER_NAME \
+    $PROJECT_NAME/$REPO_NAME:$TAG

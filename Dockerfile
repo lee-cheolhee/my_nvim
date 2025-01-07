@@ -61,6 +61,8 @@ RUN echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
 
+RUN echo "source /opt/ros/noetic/setup.bash" >> /home/rdv/.bashrc
+RUN echo "source /home/rdv/catkin_ws/devel/setup.bash" >> /home/rdv/.bashrc
 
 RUN nvim --headless +PlugInstall +qall
 # ----------------------------------------------------------------------------------------------

@@ -9,9 +9,9 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "************
 " Plug 'folke/tokyonight.nvim', { 'branch' : 'main' }
 " "Plug 'maxmx03/fluoromachine.nvim'
-Plug 'EdenEast/nightfox.nvim'
+" Plug 'EdenEast/nightfox.nvim'
 " Plug 'shaunsingh/nord.nvim'
-" Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 "*************
 " etc.
@@ -161,11 +161,11 @@ map <silent> <leader>z :bprev<CR>
 map <silent> <leader>x :bnext<CR>
 map <silent> <leader>d :bdelete<CR>
 
-" colorscheme
-let no_buffers_menu=1
-set termguicolors
-colorscheme carbonfox
-set background=dark
+" " colorscheme
+" let no_buffers_menu=1
+" set termguicolors
+" colorscheme carbonfox
+" set background=dark
 
 "" vim-airline theme
 "let g:airline_theme='alduin'
@@ -389,7 +389,7 @@ nnoremap <silent> <C-t> :AerialToggle<CR>
 lua << EOF
 require("nvim-tree").setup {
     view = {
-        width = 30,          -- 탐색기 너비 설정
+        width = 20,          -- 탐색기 너비 설정
         side = "left",       -- 탐색기 위치 (left, right)
     },
     filters = {
@@ -498,4 +498,22 @@ vim.api.nvim_set_hl(0, 'GitSignsChange', { link = 'DiffChange' })
 vim.api.nvim_set_hl(0, 'GitSignsDelete', { link = 'DiffDelete' })
 vim.api.nvim_set_hl(0, 'GitSignsTopdelete', { link = 'DiffDelete' })
 vim.api.nvim_set_hl(0, 'GitSignsChangedelete', { link = 'DiffChange' })
+EOF
+
+lua << EOF
+require("catppuccin").setup({
+    flavour = "mocha", -- latte, frappe, macchiato, mocha
+    transparent_background = false,
+    term_colors = true,
+    styles = {
+        comments = { "italic" }, -- 주석에 italic 적용
+        conditionals = { "italic" }, -- 조건문에 italic 적용
+        loops = {}, -- 루프에는 italic 비활성화
+        functions = { "italic", "bold" }, -- 함수에 italic + bold 적용
+        keywords = { "italic" }, -- 키워드에 italic 적용
+        strings = {}, -- 문자열에는 italic 비활성화
+        variables = {}, -- 변수에 italic 비활성화
+    },
+})
+vim.cmd.colorscheme "catppuccin"
 EOF

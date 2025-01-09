@@ -7,7 +7,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*************
 " theme.
 "************
-" Plug 'folke/tokyonight.nvim', { 'branch' : 'main' }
+Plug 'folke/tokyonight.nvim', { 'branch' : 'main' }
 " "Plug 'maxmx03/fluoromachine.nvim'
 " Plug 'EdenEast/nightfox.nvim'
 " Plug 'shaunsingh/nord.nvim'
@@ -166,12 +166,6 @@ nnoremap <silent> <leader>y :echo @"<CR>
 " map <silent> <leader>z :bprev<CR>
 " map <silent> <leader>x :bnext<CR>
 " map <silent> <leader>d :bdelete<CR>
-
-" " colorscheme
-" let no_buffers_menu=1
-" set termguicolors
-" colorscheme carbonfox
-" set background=dark
 
 "" vim-airline theme
 "let g:airline_theme='alduin'
@@ -443,7 +437,7 @@ lua << EOF
 require("aerial").setup {
     backends = { "lsp", "treesitter", "markdown" }, -- 백엔드 설정
     layout = {
-        default_direction = "prefer_right", -- 창 위치 (right, left)
+        default_direction = "float", -- 창 위치 (right, left, float, prefer_right, prefer_left)
         width = 40,                        -- 창 너비
     },
     show_guides = true,                    -- 계층 구조 가이드라인 표시
@@ -532,13 +526,13 @@ require("catppuccin").setup({
         comments = { "italic" }, -- 주석에 italic 적용
         conditionals = { "italic" }, -- 조건문에 italic 적용
         loops = {}, -- 루프에는 italic 비활성화
-        functions = { "italic", "bold" }, -- 함수에 italic + bold 적용
+        functions = { "italic" }, -- 함수에 italic + bold 적용
         keywords = { "italic" }, -- 키워드에 italic 적용
         strings = {}, -- 문자열에는 italic 비활성화
         variables = {}, -- 변수에 italic 비활성화
     },
 })
-vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "catppuccin"
 EOF
 
 lua << EOF
@@ -666,4 +660,15 @@ nnoremap <Leader>k :wincmd k \| b#<CR>
 
 " 현재 버퍼를 오른쪽 창으로 옮기기
 nnoremap <Leader>l :wincmd l \| b#<CR>
+
+" colorscheme
+" let no_buffers_menu=1
+set termguicolors
+" Tokyonight 테마 적용
+colorscheme catppuccin-macchiato   " Tokyonight 테마 적용
+
+" 옵션 설정 (선택 사항)
+let g:tokyonight_style = 'storm'       " 가능한 옵션: 'storm', 'night', 'day'
+let g:tokyonight_enable_italic = 1     " 기울임꼴 활성화
+let g:tokyonight_transparent = 1       " 배경 투명화
 

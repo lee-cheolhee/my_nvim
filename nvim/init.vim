@@ -362,8 +362,8 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<C-n>'] = cmp.mapping.select_next_item(),  -- 후보 항목 선택
-    ['<C-p>'] = cmp.mapping.select_prev_item(),  -- 이전 항목 선택
+    ['<Tab>'] = cmp.mapping.select_next_item(),  -- 후보 항목 선택
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),  -- 이전 항목 선택
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),  -- 문서 스크롤
     ['<C-f>'] = cmp.mapping.scroll_docs(4),   -- 문서 스크롤
     ['<C-Space>'] = cmp.mapping.complete(),    -- 자동 완성 시작
@@ -502,22 +502,6 @@ require('Comment').setup {
         extra = true,    -- 추가 키 매핑 사용
     },
 }
-EOF
-lua << EOF
--- nvim-autopairs 기본 설정
-require("nvim-autopairs").setup {
-    check_ts = true, -- Treesitter 통합
-    disable_filetype = { "TelescopePrompt", "vim" }, -- 제외할 파일 유형
-}
-
--- nvim-cmp와 nvim-autopairs 연동
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-local cmp = require('cmp')
-
-cmp.event:on(
-  'confirm_done',
-  cmp_autopairs.on_confirm_done()
-)
 EOF
 lua << EOF
 require('gitsigns').setup {
@@ -670,3 +654,16 @@ map <silent> <leader>x :BufferLineCycleNext<CR>
 map <silent> <leader>d :bdelete<CR>
 map <silent> <leader>p :BufferLinePick<CR>
 map <silent> <leader>pd :BufferLinePickClose<CR>
+
+" 현재 버퍼를 왼쪽 창으로 옮기기
+nnoremap <silent> <Leader>h :wincmd h \| b#<CR>
+
+" 현재 버퍼를 아래 창으로 옮기기
+nnoremap <Leader>j :wincmd j \| b#<CR>
+
+" 현재 버퍼를 위 창으로 옮기기
+nnoremap <Leader>k :wincmd k \| b#<CR>
+
+" 현재 버퍼를 오른쪽 창으로 옮기기
+nnoremap <Leader>l :wincmd l \| b#<CR>
+

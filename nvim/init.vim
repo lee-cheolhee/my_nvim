@@ -234,9 +234,9 @@ let g:DoxygenToolkit_licenseTag="My own license"
 					" \ })
 	" augroup end
 " endif
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 
 "" indent guide
 "let g:indent_guides_enable_on_vim_startup = 0
@@ -341,6 +341,45 @@ require('lspconfig').clangd.setup {
     root_dir = require('lspconfig/util').root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
     on_attach = on_attach,
 }
+-- nvim-autopairs 기본 설정
+require("nvim-autopairs").setup {
+    check_ts = true, -- Treesitter 통합
+    disable_filetype = { "TelescopePrompt", "vim" }, -- 제외할 파일 유형
+}
+
+-- nvim-cmp와 nvim-autopairs 연동
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp = require('cmp')
+
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)  -- snippets을 사용할 경우 추가
+    end,
+  },
+  mapping = {
+    ['<C-n>'] = cmp.mapping.select_next_item(),  -- 후보 항목 선택
+    ['<C-p>'] = cmp.mapping.select_prev_item(),  -- 이전 항목 선택
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),  -- 문서 스크롤
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),   -- 문서 스크롤
+    ['<C-Space>'] = cmp.mapping.complete(),    -- 자동 완성 시작
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- 선택된 항목 확정
+  },
+  sources = {
+    { name = 'nvim_lsp' },  -- LSP 자동 완성 소스
+    { name = 'buffer' },    -- 버퍼 내 텍스트 자동 완성
+    { name = 'path' },      -- 경로 자동 완성
+  },
+})
+
+-- LSP 설정
+lspconfig.pyright.setup{}
+lspconfig.clangd.setup{}
+-- lspconfig.tsserver.setup{}
 EOF
 
 " local dap = require('dap')

@@ -9,6 +9,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "************
 Plug 'folke/tokyonight.nvim', { 'branch' : 'main' }
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'tiagovla/tokyodark.nvim', { 'branch': 'master' }
 
 "*************
 " etc.
@@ -446,8 +447,7 @@ require("catppuccin").setup({
 EOF
 " colorscheme
 set termguicolors
-" Tokyonight 테마 적용
-colorscheme catppuccin-macchiato   " Tokyonight 테마 적용
+colorscheme tokyodark
 
 " 옵션 설정 (선택 사항)
 let g:tokyonight_style = 'storm'       " 가능한 옵션: 'storm', 'night', 'day'

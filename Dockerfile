@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:noble
 LABEL authors="chlee-rdv"
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -15,14 +15,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo git wget curl tar unzip tree xz-utils xclip tmux \
     build-essential cmake g++ net-tools \
     python3-pip python3-venv \
-    npm
+    npm neovim
 
 
 # ----------------------------------------------------------------------------------------------
 RUN useradd -m -s /bin/bash rdv && \
     echo "rdv ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/rdv && \
     chmod 0440 /etc/sudoers.d/rdv
-
 
 USER rdv
 WORKDIR /home/rdv
@@ -47,7 +46,7 @@ RUN export NVM_DIR="/home/rdv/.nvm" && \
     nvm install 22
 
 #  NeoVim 설치
-RUN wget https://github.com/neovim/neovim-releases/releases/download/v0.10.3/nvim-linux64.deb && sudo apt install ./nvim-linux64.deb
+# RUN wget https://github.com/neovim/neovim-releases/releases/download/v0.10.3/nvim-linux64.deb && sudo apt install ./nvim-linux64.deb
 # Vim Plugin 설치
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

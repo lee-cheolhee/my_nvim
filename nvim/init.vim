@@ -1,9 +1,9 @@
-""***************************************************************************** 
-"" Plug install packages
-""*****************************************************************************
+"***************************************************************************** 
+" Plug install packages
+"*****************************************************************************
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 call plug#begin(expand('~/.config/nvim/plugged'))
-
+ 
 "*************
 " theme.
 "************
@@ -66,22 +66,22 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'thibthib18/ros-nvim'
 
 call plug#end()
-
+" 
 " Required:
 filetype plugin indent on
 
 "*****************************************************************************
-"" Basic Setup
+" Basic Setup
 "*****************************************************************************"
-"" Encoding
+" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 
-"" Fix backspace indent
+" Fix backspace indent
 set backspace=indent,eol,start
 
-"" Tabs. May be overridden by autocmd rule
+" Tabs. May be overridden by autocmd rule
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -89,13 +89,13 @@ set softtabstop=4
 set autoindent
 set cindent
 
-"" Map leader to ,
+" Map leader to ,
 let mapleader=','
 
-"" Enable hidden buffers
+" Enable hidden buffers
 set hidden
 
-"" Searching
+" Searching
 set hlsearch
 nnoremap <silent> <leader>h :nohlsearch<CR>
 set incsearch
@@ -105,7 +105,7 @@ nnoremap <silent> <leader>r :redo<CR>
 set fileformats=unix,dos,mac
  
 "*****************************************************************************
-"" Visual Settings
+" Visual Settings
 "*****************************************************************************
 syntax on
 set ruler
@@ -128,7 +128,7 @@ nnoremap <silent> <leader>y :echo @"<CR>
 autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
 let g:autopep8_ignore="E501,W293"
 
-"copilot keymap"
+" copilot keymap
 let g:copilot_no_tab_map = v:true
 inoremap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 inoremap <silent><script><expr> <C-L> copilot#Next()

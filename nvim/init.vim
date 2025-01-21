@@ -153,7 +153,7 @@ local lspconfig = require("lspconfig")
 mason.setup()
 mason_lspconfig.setup {
   ensure_installed = {
-    "pyright", "clangd", "dockerls", "jsonls", "html", "intelephense", "yamlls", "bashls",
+    "pyright", "dockerls", "jsonls", "html", "intelephense", "yamlls", "bashls",
   }
 }
 
@@ -172,7 +172,7 @@ end
 local servers = {
   pyright = {},
   clangd = {
-    cmd = { "clangd", "--compile-commands-dir=" .. vim.fn.expand("~/catkin_ws") },
+    cmd = { "clangd", "--compile-commands-dir=" .. vim.fn.expand("/home/rdv/catkin_ws") },
     root_dir = require('lspconfig/util').root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
   },
   dockerls = {},

@@ -46,6 +46,7 @@ for f, paths in file_paths.items():
 
 if not os.path.isfile(target_ccjson_path):
     os.system('mv ./compile_commands.json %s' % (target_ccjson_path))
+    os.system('cd /home/rdv/catkin_ws && ln -s build/compile_commands.json ./')
 
 
 print("\033[1;32mFinished writing compile_commands.json\033[0m")

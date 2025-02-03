@@ -11,6 +11,14 @@ Plug 'folke/tokyonight.nvim', { 'branch' : 'main' }
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'tiagovla/tokyodark.nvim', { 'branch': 'master' }
 
+Plug 'MunifTanjim/nui.nvim'   " noice.nvim의 필수 종속성
+Plug 'rcarriga/nvim-notify'   " 더 나은 메시지 UI
+Plug 'folke/noice.nvim'       " 개선된 명령줄 UI
+
+Plug 'goolord/alpha-nvim'  " Neovim 시작 화면 플러그인
+Plug 'nvim-lua/plenary.nvim'  " 필수 종속성
+Plug 'nvim-tree/nvim-web-devicons' " 아이콘 지원 (선택 사항)
+
 "*************
 " etc.
 "************
@@ -50,7 +58,7 @@ Plug 'nvim-lua/plenary.nvim'             " Telescope 의존성
 "*************
 " python plugin
 "*************
-Plug 'tell-k/vim-autopep8'
+" Plug 'tell-k/vim-autopep8'
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 
 "*************
@@ -153,7 +161,7 @@ local lspconfig = require("lspconfig")
 mason.setup()
 mason_lspconfig.setup {
   ensure_installed = {
-    "pyright", "dockerls", "jsonls", "html", "intelephense", "yamlls", "bashls",
+    "pyright", "clangd", "dockerls", "jsonls", "html", "intelephense", "yamlls", "bashls",
   }
 }
 
@@ -172,7 +180,7 @@ end
 local servers = {
   pyright = {},
   clangd = {
-    cmd = { "clangd", "--compile-commands-dir=" .. vim.fn.expand("/home/rdv/catkin_ws") },
+    cmd = { "clangd", "--compile-commands-dir=" .. vim.fn.expand("~/catkin_ws") },
     root_dir = require('lspconfig/util').root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
   },
   dockerls = {},
@@ -447,10 +455,59 @@ require("catppuccin").setup({
 EOF
 " colorscheme
 set termguicolors
-colorscheme tokyodark
+colorscheme tokyonight-moon
 
 " 옵션 설정 (선택 사항)
 let g:tokyonight_style = 'storm'       " 가능한 옵션: 'storm', 'night', 'day'
 let g:tokyonight_enable_italic = 1     " 기울임꼴 활성화
 let g:tokyonight_transparent = 1       " 배경 투명화
 
+lua << EOF
+require("noice").setup({
+  cmdline = {
+    enabled = true,
+    view = "cmdline_popup",  -- 명령줄 UI 스타일 ("cmdline_popup"도 가능)
+  },
+  messages = {
+    enabled = true,    -- Neovim의 메시지 UI 개선
+    view = "mini", -- 메시지를 작은 팝업 창으로 표시
+  },
+  popupmenu = {
+    enabled = true,    -- 명령어 자동 완성 UI 활성화
+  },
+})
+EOF
+
+lua << EOF
+local alpha = require("alpha")
+local dashboard = require("alpha.themes.dashboard")
+
+dashboard.section.header.val = {
+  "      Welcome to FARMILY! 🚀       ",
+}
+
+-- 메뉴 버튼 설정
+dashboard.section.buttons.val = {
+  dashboard.button("e", "  새 파일 열기", ":ene <BAR> startinsert <CR>"),
+  dashboard.button("f", "  파일 찾기", ":Telescope find_files <CR>"),
+  dashboard.button("r", "  최근 파일", ":Telescope oldfiles <CR>"),
+  dashboard.button("q", "  종료", ":qa<CR>"),
+}
+
+-- 색상 적용 (선택 사항)
+dashboard.section.header.opts.hl = "Type"
+dashboard.section.buttons.opts.hl = "Function"
+
+-- 시작 화면 설정 적용
+alpha.setup(dashboard.config)
+
+-- **올바른 대시보드 표시 설정**
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    -- 파일 없이 실행한 경우에만 대시보드 열기
+    if vim.fn.argc() == 0 then
+      require("alpha").start(true)
+    end
+  end,
+})
+EOF

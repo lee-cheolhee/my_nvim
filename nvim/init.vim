@@ -545,3 +545,6 @@ command! RsyncUp execute '!rsync -avz --progress' . RsyncExclude() . ' ./ user@h
 command! RsyncDown execute '!rsync -avz --progress' . RsyncExclude() . ' user@host:/path/to/remote/ ./'
 " command! RsyncDown execute '!rsync -avz -e "ssh -i ~/.ssh/id_rsa" --progress' . RsyncExclude() . ' user@host:/path/to/remote/ ./'
 
+nnoremap <leader>ru :RsyncUp<CR>
+nnoremap <leader>rd :RsyncDown<CR>
+

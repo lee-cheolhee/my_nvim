@@ -511,3 +511,35 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 EOF
+
+"*****************************************************************************
+" rsync
+" *****************************************************************************
+" exclude file
+let g:rsync_exclude = [
+    \ ".git",
+    \ ".DS_Store",
+    \ ".idea",
+    \ ".vscode",
+    \ 'build/',
+    \ 'devel/',
+    \ 'install/',
+    \ 'log/',
+    \ '*.log',
+    \ 'cache/'
+    \]
+
+" 리스트를 --exclude 옵션 문자열로 변환
+function! RsyncExclude()
+  let l:exclude_str = ''
+  for item in g:rsync_exclude
+    let l:exclude_str .= ' --exclude="' . item . '"'
+  endfor
+  return l:exclude_str
+endfunction
+
+" 로컬 → 원격으로 동기화
+command! RsyncUp execute '!rsync -avz --progress' . RsyncExclude() . ' ./ user@host:/path/to/remote/'
+" 원격 → 로컬로 동기화
+command! RsyncDown execute '!rsync -avz --progress' . RsyncExclude() . ' user@host:/path/to/remote/ ./'
+

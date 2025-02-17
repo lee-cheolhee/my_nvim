@@ -545,6 +545,18 @@ command! RsyncUp execute '!rsync -avz --progress' . RsyncExclude() . ' ./ user@h
 command! RsyncDown execute '!rsync -avz --progress' . RsyncExclude() . ' user@host:/path/to/remote/ ./'
 " command! RsyncDown execute '!rsync -avz -e "ssh -i ~/.ssh/id_rsa" --progress' . RsyncExclude() . ' user@host:/path/to/remote/ ./'
 
-nnoremap <leader>ru :RsyncUp<CR>
-nnoremap <leader>rd :RsyncDown<CR>
+nnoremap <leader>ru :echo "Rsync UP? (y/n)" \| call ConfirmRsync('up')<CR>
+nnoremap <leader>rd :echo "Rsync DOWN? (y/n)" \| call ConfirmRsync('down')<CR>
 
+function! ConfirmRsync(direction)
+  let choice = input("Proceed with rsync " . a:direction . "? (y/n): ")
+  if choice == 'y'
+    if a:direction == 'up'
+      execute ':RsyncUp'
+    else
+      execute ':RsyncDown'
+    endif
+  else
+    echo "Rsync canceled"
+  endif
+endfunction

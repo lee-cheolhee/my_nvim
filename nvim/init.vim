@@ -540,6 +540,8 @@ endfunction
 
 " 로컬 → 원격으로 동기화
 command! RsyncUp execute '!rsync -avz --progress' . RsyncExclude() . ' ./ user@host:/path/to/remote/'
+" command! RsyncUp execute '!rsync -avz -e "ssh -i ~/.ssh/id_rsa" --progress' . RsyncExclude() . ' ./ user@host:/path/to/remote/'
 " 원격 → 로컬로 동기화
 command! RsyncDown execute '!rsync -avz --progress' . RsyncExclude() . ' user@host:/path/to/remote/ ./'
+" command! RsyncDown execute '!rsync -avz -e "ssh -i ~/.ssh/id_rsa" --progress' . RsyncExclude() . ' user@host:/path/to/remote/ ./'
 

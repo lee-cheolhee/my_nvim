@@ -161,7 +161,7 @@ local lspconfig = require("lspconfig")
 mason.setup()
 mason_lspconfig.setup {
   ensure_installed = {
-    "pyright", "clangd", "dockerls", "jsonls", "html", "intelephense", "yamlls", "bashls",
+    "pyright", "dockerls", "jsonls", "html", "intelephense", "yamlls", "bashls",
   }
 }
 

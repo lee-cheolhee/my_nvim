@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ROS: Attach to Node",
+      "request": "attach",
+      "program": "/opt/ros/noetic/lib/my_package/my_node",
+      "processId": "${command:pickProcess}",
+      "type": "cppdbg",
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "miDebuggerPath": "/usr/bin/gdb"
+    }
+  ]
+}

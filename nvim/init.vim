@@ -301,7 +301,7 @@ EOF
 lua << EOF
 require("nvim-tree").setup {
     view = {
-        width = 30,          -- 탐색기 너비 설정
+        width = 60,          -- 탐색기 너비 설정
         side = "left",       -- 탐색기 위치 (left, right)
     },
     filters = {
@@ -325,7 +325,7 @@ require("aerial").setup {
     backends = { "lsp", "treesitter", "markdown" }, -- 백엔드 설정
     layout = {
         default_direction = "float", -- 창 위치 (right, left, float, prefer_right, prefer_left)
-        width = 40,                        -- 창 너비
+        width = 80,                        -- 창 너비
     },
     show_guides = true,                    -- 계층 구조 가이드라인 표시
     filter_kind = {                        -- 표시할 심볼 종류 필터링

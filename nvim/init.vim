@@ -51,6 +51,11 @@ Plug 'williamboman/mason-lspconfig.nvim' " Mason과 lspconfig 통합
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim'             " Telescope 의존성
 
+" Debug
+Plug 'mfussenegger/nvim-dap'
+" Plug 'theHamsta/nvim-dap-virtual-text'
+"Plug 'rcarriga/nvim-dap-ui'
+
 "*************
 " cpp plugin
 "*************
@@ -483,15 +488,23 @@ local alpha = require("alpha")
 local dashboard = require("alpha.themes.dashboard")
 
 dashboard.section.header.val = {
-  "      Welcome to FARMILY! 🚀       ",
+    "                                                      ", 
+    " ███████╗ █████╗ ██████╗ ███╗   ███╗██╗██╗  ██╗   ██╗ ",
+    " ██╔════╝██╔══██╗██╔══██╗████╗ ████║██║██║  ╚██╗ ██╔╝ ",
+    " █████╗  ███████║██████╔╝██╔████╔██║██║██║   ╚████╔╝  ",
+    " ██╔══╝  ██╔══██║██╔══██╗██║╚██╔╝██║██║██║    ╚██╔╝   ",
+    " ██║     ██║  ██║██║  ██║██║ ╚═╝ ██║██║███████╗██║    ",
+    " ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚══════╝╚═╝    ",
+    "                                                      ",
+    "              Welcome to FARMILY! 🦾                  ",
 }
 
 -- 메뉴 버튼 설정
 dashboard.section.buttons.val = {
-  dashboard.button("e", "  새 파일 열기", ":ene <BAR> startinsert <CR>"),
-  dashboard.button("f", "  파일 찾기", ":Telescope find_files <CR>"),
-  dashboard.button("r", "  최근 파일", ":Telescope oldfiles <CR>"),
-  dashboard.button("q", "  종료", ":qa<CR>"),
+  dashboard.button("e", "📄 > 새 파일 열기", ":ene <BAR> startinsert <CR>"),
+  dashboard.button("f", "🔎 > 파일 찾기", ":Telescope find_files <CR>"),
+  dashboard.button("r", "🗂️ > 최근 파일", ":Telescope oldfiles <CR>"),
+  dashboard.button("q", "❌ > 종료", ":qa<CR>"),
 }
 
 -- 색상 적용 (선택 사항)
@@ -560,3 +573,36 @@ function! ConfirmRsync(direction)
     echo "Rsync canceled"
   endif
 endfunction
+
+"*****************************************************************************
+" DAP(Debug Adapter Protocol)
+" *****************************************************************************
+lua << EOF
+  local dap = require('dap')
+  -- C++/clangd 디버깅을 위한 설정 예시
+  dap.adapters.cppdbg = {
+    id = 'cppdbg',
+    type = 'executable',
+    command = '/usr/bin/lldb',  -- 설치한 디버거의 경로로 수정
+  }
+
+  dap.configurations.cpp = {
+    {
+      name = "Launch file",
+      type = "cppdbg",
+      request = "launch",
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      end,
+      cwd = '${workspaceFolder}',
+      stopAtEntry = true,
+    },
+  }
+  -- nvim-dap-ui 설정
+  -- require("dapui").setup()
+EOF
+" 단축키 매핑 예시: F5로 디버깅 시작/재개, F10으로 한 단계 넘기기
+nnoremap <F5> :lua require'dap'.continue()<CR>
+nnoremap <F10> :lua require'dap'.step_over()<CR>
+nnoremap <F11> :lua require'dap'.step_into()<CR>
+nnoremap <F12> :lua require'dap'.step_out()<CR>

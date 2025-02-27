@@ -349,10 +349,11 @@ lua << EOF
 require('lualine').setup {
     options = {
         theme = 'papercolor_dark',
-        -- section_separators = {'', ''},  -- 섹션 구분 기호
-        -- component_separators = {'', ''}  -- 컴포넌트 구분 기호
-        section_separators = '',  -- 섹션 구분 기호 비활성화
-        component_separators = '' -- 컴포넌트 구분 기호 비활성화
+        theme = 'palenight',
+        section_separators = {'', ''},  -- 섹션 구분 기호
+        component_separators = {'', ''}  -- 컴포넌트 구분 기호
+        -- section_separators = '',  -- 섹션 구분 기호 비활성화
+        -- component_separators = '' -- 컴포넌트 구분 기호 비활성화
     },
     sections = {
         lualine_a = {'mode'},
@@ -445,7 +446,7 @@ nnoremap <Leader>l :wincmd l \| b#<CR>
 lua << EOF
 require("catppuccin").setup({
     flavour = "mocha", -- latte, frappe, macchiato, mocha
-    transparent_background = false,
+    transparent_background = true,
     term_colors = true,
     styles = {
         comments = { "italic" }, -- 주석에 italic 적용
@@ -460,7 +461,7 @@ require("catppuccin").setup({
 EOF
 " colorscheme
 set termguicolors
-colorscheme tokyonight-moon
+colorscheme catppuccin-mocha
 
 " 옵션 설정 (선택 사항)
 let g:tokyonight_style = 'storm'       " 가능한 옵션: 'storm', 'night', 'day'
@@ -526,6 +527,51 @@ vim.api.nvim_create_autocmd("VimEnter", {
 EOF
 
 "*****************************************************************************
+" DAP(Debug Adapter Protocol)
+" *****************************************************************************
+lua << EOF
+  local dap = require('dap')
+  -- C++/clangd 디버깅을 위한 설정 예시
+  dap.adapters.cppdbg = {
+    id = 'cppdbg',
+    type = 'executable',
+    command = '/usr/bin/lldb',  -- 설치한 디버거의 경로로 수정
+  }
+
+  dap.configurations.cpp = {
+    {
+      name = "Launch file",
+      type = "cppdbg",
+      request = "launch",
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      end,
+      cwd = '${workspaceFolder}',
+      stopAtEntry = true,
+    },
+  }
+  -- nvim-dap-ui 설정
+  -- require("dapui").setup()
+EOF
+" 단축키 매핑 예시: F5로 디버깅 시작/재개, F10으로 한 단계 넘기기
+nnoremap <F5> :lua require'dap'.continue()<CR>
+nnoremap <F10> :lua require'dap'.step_over()<CR>
+nnoremap <F11> :lua require'dap'.step_into()<CR>
+nnoremap <F12> :lua require'dap'.step_out()<CR>
+
+" 줄번호와 상대 줄번호 토글 함수
+function! ToggleLineNumbers()
+  if &number
+    set nonumber norelativenumber
+  else
+    set number relativenumber
+  endif
+endfunction
+
+" F3키로 토글
+nnoremap <leader>sn :call ToggleLineNumbers()<CR>
+
+"*****************************************************************************
 " rsync
 " *****************************************************************************
 " exclude file
@@ -574,35 +620,3 @@ function! ConfirmRsync(direction)
   endif
 endfunction
 
-"*****************************************************************************
-" DAP(Debug Adapter Protocol)
-" *****************************************************************************
-lua << EOF
-  local dap = require('dap')
-  -- C++/clangd 디버깅을 위한 설정 예시
-  dap.adapters.cppdbg = {
-    id = 'cppdbg',
-    type = 'executable',
-    command = '/usr/bin/lldb',  -- 설치한 디버거의 경로로 수정
-  }
-
-  dap.configurations.cpp = {
-    {
-      name = "Launch file",
-      type = "cppdbg",
-      request = "launch",
-      program = function()
-        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-      end,
-      cwd = '${workspaceFolder}',
-      stopAtEntry = true,
-    },
-  }
-  -- nvim-dap-ui 설정
-  -- require("dapui").setup()
-EOF
-" 단축키 매핑 예시: F5로 디버깅 시작/재개, F10으로 한 단계 넘기기
-nnoremap <F5> :lua require'dap'.continue()<CR>
-nnoremap <F10> :lua require'dap'.step_over()<CR>
-nnoremap <F11> :lua require'dap'.step_into()<CR>
-nnoremap <F12> :lua require'dap'.step_out()<CR>

@@ -33,6 +33,7 @@ Plug 'numToStr/Comment.nvim'
 Plug 'hrsh7th/nvim-cmp'               " 자동 완성 플러그인
 Plug 'hrsh7th/cmp-nvim-lsp'           " LSP 소스 연결
 Plug 'windwp/nvim-autopairs'          " 자동 괄호 닫기 플러그인
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 "*************
 " Programming Language
@@ -77,6 +78,11 @@ Plug 'lewis6991/gitsigns.nvim'
 " ros plugin
 "*************
 Plug 'thibthib18/ros-nvim'
+
+"*************
+" flutter plugin
+"*************
+Plug 'akinsho/flutter-tools.nvim'
 
 call plug#end()
 " 
@@ -568,8 +574,40 @@ function! ToggleLineNumbers()
   endif
 endfunction
 
-" F3키로 토글
+" <leader> + s + n 키로 토글
 nnoremap <leader>sn :call ToggleLineNumbers()<CR>
+
+" flutter-tools.nvim 기본 설정 (더 많은 옵션은 공식 문서를 참고)
+lua << EOF
+require("flutter-tools").setup {
+  -- flutter path, flutter sdk 경로가 PATH에 있으면 생략 가능
+  flutter_path = "flutter",
+  fvm = false, -- fvm 사용 시 true로 변경
+  widget_guides = {
+    enabled = true,
+  },
+  closing_tags = {
+    highlight = "Error",
+    prefix = ">> ",
+  },
+  debugger = {
+    enabled = true,
+    run_via_dap = true,
+  }
+}
+EOF
+
+lua << EOF
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.completion.spell,
+    },
+})
+EOF
 
 "*****************************************************************************
 " rsync

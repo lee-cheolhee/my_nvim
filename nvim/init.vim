@@ -452,7 +452,7 @@ nnoremap <Leader>l :wincmd l \| b#<CR>
 lua << EOF
 require("catppuccin").setup({
     flavour = "mocha", -- latte, frappe, macchiato, mocha
-    transparent_background = true,
+    transparent_background = false,
     term_colors = true,
     styles = {
         comments = { "italic" }, -- 주석에 italic 적용

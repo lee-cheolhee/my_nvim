@@ -1,33 +1,31 @@
 {
-  "configurations": [
-    {
-      "browse": {
-        "databaseFilename": "${default}",
-        "limitSymbolsToIncludedHeaders": false
-      },
-      "includePath": [
-        "/home/rdv/catkin_ws/devel/include/**",
-        "/opt/ros/noetic/include/**",
-        "/usr/include/**",
-        "/home/rdv/catkin_ws/src/farmily_info/include/**",
-        "/home/rdv/catkin_ws/src/farmily_logs/include/**",
-        "/home/rdv/catkin_ws/src/farmily_odometry/include/**",
-        "/home/rdv/catkin_ws/src/farmily_rail/include/**",
-        "/home/rdv/catkin_ws/src/third_party/ldlidar_stl_ros/include/**",
-        "/home/rdv/catkin_ws/src/shared_rdv/msgs/include/**",
-        "/home/rdv/catkin_ws/src/third_party/mw_ahrs_ros/include/**",
-        "/home/rdv/catkin_ws/src/third_party/pointcloud_to_laserscan/include/**",
-        "/home/rdv/catkin_ws/src/shared_rdv/rdv_mecanum/include/**",
-        "/home/rdv/catkin_ws/src/shared_rdv/rdv_socketcan/include/**",
-        "/home/rdv/catkin_ws/src/third_party/sbus_serial/include/**",
-        "/usr/include/**"
-      ],
-      "name": "ROS",
-      "intelliSenseMode": "gcc-arm64",
-      "compilerPath": "/usr/bin/gcc",
-      "cStandard": "gnu11",
-      "cppStandard": "c++14"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "${default}",
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "includePath": [
+                "/home/rdv/catkin_ws/devel/include/**",
+                "/home/rdv/catkin_ws/build/**",
+                "/opt/ros/noetic/include/**",
+                "/usr/include/**",
+                "/usr/local/include/**",
+                "/usr/include/pcl-1.10/**"
+            ],
+            "name": "ROS",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "intelliSenseMode": "gcc-arm64",
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "gnu17",
+            "cppStandard": "c++17",
+            "compilerArgs": [
+              "-Wall",
+              "-Wextra",
+              "-Wpedantic",
+              "-Werror"
+            ]
+        }
+    ],
+    "version": 4
 }

@@ -1,34 +1,23 @@
 {
-  "ros.distro": "noetic",
-  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-  "C_Cpp.intelliSenseEngine": "disabled",
-  "clangd.path": "/usr/bin/clangd",
-  "cmake.configureOnOpen": true,
-  "cmake.buildDirectory": "${workspaceFolder}/build",
-  "cmake.configureSettings": {
-    "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
-  },
-  "cmake.configureArgs": [
-    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
-  ],
-  "cmake.configureEnvironment": {
-    "ROS_DISTRO": "noetic"
-  },
-  "editor.formatOnSave": true,
-  "editor.tabSize": 2,
-  "python.autoComplete.extraPaths": [
-    "/home/rdv/catkin_ws/devel/lib/python3/dist-packages",
-    "/opt/ros/noetic/lib/python3/dist-packages",
-    "/usr/local/lib/python3.8/dist-packages",
-    "/usr/lib/python3/dist-packages",
-    "/home/rdv/catkin_ws/src"
-  ],
-  "python.analysis.extraPaths": [
-    "/home/rdv/catkin_ws/devel/lib/python3/dist-packages",
-    "/opt/ros/noetic/lib/python3/dist-packages",
-    "/usr/local/lib/python3.8/dist-packages",
-    "/usr/lib/python3/dist-packages",
-    "/home/rdv/catkin_ws/src"
-  ],
-  "cmake.sourceDirectory": "/home/rdv/catkin_ws/src"
+    "cmake.sourceDirectory": "/home/rdv/catkin_ws/src",
+    "python.autoComplete.extraPaths": [
+        "/home/rdv/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/rdv/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/lib/python3/dist-packages"
+    ],
+    "clangd.path": "/usr/bin/clangd",
+    "clangd.arguments": [
+        "--compile-commands-dir=/home/rdv/catkin_ws/build",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion-decorators",
+        "--suggest-missing-includes",
+        "--completion-style=detailed",
+    ],
+    "C_Cpp.intelliSenseEngine": "disabled"  // 기존 엔진 비활성화
 }

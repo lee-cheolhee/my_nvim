@@ -1,0 +1,8 @@
+CompileFlags:
+  CompilationDatabase: build
+  Add:
+    - "-I${workspaceFolder}/devel/include"
+
+Index:
+  Background: true
+  StandardLibrary: Yes

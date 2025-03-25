@@ -1,31 +1,45 @@
+// {
+//     "tasks": [
+//         {
+//             "type": "cppbuild",
+//             "label": "C/C++: aarch64-linux-gnu-g++ 활성 파일 빌드",
+//             "command": "/usr/bin/aarch64-linux-gnu-g++",
+//             "args": [
+//                 "-fdiagnostics-color=always",
+//                 "-g",
+//                 "${file}",
+//                 "-o",
+//                 "${fileDirname}/${fileBasenameNoExtension}"
+//             ],
+//             "options": {
+//                 "cwd": "${fileDirname}"
+//             },
+//             "problemMatcher": [
+//                 "$gcc"
+//             ],
+//             "group": "build",
+//             "detail": "디버거에서 생성된 작업입니다."
+//         },
+//         {
+//             "type": "catkin_build",
+//             "task": "build",
+//             "group": "build",
+//             "problemMatcher": [],
+//             "label": "catkin: build"
+//         }
+//     ],
+//     "version": "2.0.0"
+// }
+
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "ROS: Build",
-      "type": "shell",
-      "command": "catkin build",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "ROS: Clean",
-      "type": "shell",
-      "command": "catkin clean",
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "ROS: Run Launch",
-      "type": "shell",
-      "command": "roslaunch my_package my_launch_file.launch",
-      "problemMatcher": []
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "catkin: build with compile_commands",
+            "type": "shell",
+            "command": "catkin build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release -j4 && python3 /home/rdv/my_nvim/merge_compile_commands.py",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
 }

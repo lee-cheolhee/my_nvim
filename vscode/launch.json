@@ -1,31 +1,45 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": "C/C++: aarch64-linux-gnu-g++ 활성 파일 빌드 및 디버그",
+            "name": "Debug-rclpy(debugpy)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug-rclcpp(gbd)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/install/${input:package}/lib/${input:package}/${input:node}",
             "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
+            "preLaunchTask": "colcon: build",
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
                 {
-                    "description": "gdb 에 자동 서식 지정 사용",
+                    "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
-                },
-                {
-                    "description": "디스어셈블리 버전을 Intel(으)로 설정",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
                 }
-            ],
-            "preLaunchTask": "C/C++: aarch64-linux-gnu-g++ 활성 파일 빌드",
-            "miDebuggerPath": "/usr/bin/gdb"
+            ]
         }
     ],
-    "version": "2.0.0"
+    "inputs": [
+        {
+            "id": "package",
+            "type": "promptString",
+            "description": "package name",
+            "default": "topic_service_action_rclcpp_example"
+        },
+        {
+            "id": "node",
+            "type": "promptString",
+            "description": "node name",
+            "default": "argument"
+        }
+    ]
 }

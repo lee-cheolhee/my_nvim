@@ -19,27 +19,32 @@
 //             ],
 //             "group": "build",
 //             "detail": "디버거에서 생성된 작업입니다."
-//         },
-//         {
-//             "type": "catkin_build",
-//             "task": "build",
-//             "group": "build",
-//             "problemMatcher": [],
-//             "label": "catkin: build"
 //         }
 //     ],
 //     "version": "2.0.0"
 // }
-
 {
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "catkin: build with compile_commands",
+            "label": "colcon: build with compile_commands",
             "type": "shell",
-            "command": "catkin build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release -j4 && python3 /home/rdv/my_nvim/merge_compile_commands.py",
-            "group": "build",
-            "problemMatcher": []
+            "command": "colcon build --symlink-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "colcon: test",
+            "type": "shell",
+            "command": "colcon test && colcon test-result"
+        },
+        {
+            "label": "colcon: clean",
+            "type": "shell",
+            "command": "rm -rf build install log"
         }
     ]
 }

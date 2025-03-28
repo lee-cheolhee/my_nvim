@@ -1,18 +1,47 @@
 {
-    "cmake.sourceDirectory": "/home/rdv/catkin_ws/src",
     "python.autoComplete.extraPaths": [
-        "/home/rdv/catkin_ws/devel/lib/python3/dist-packages",
-        "/opt/ros/noetic/lib/python3/dist-packages",
-        "/usr/lib/python3/dist-packages"
+        "/home/rdv/farmily_ws/install/rbpodo_msgs/local/lib/python3.10/dist-packages",
+        "/home/rdv/farmily_ws/build/detect_tomato",
+        "/home/rdv/farmily_ws/install/detect_tomato/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
     ],
     "python.analysis.extraPaths": [
-        "/home/rdv/catkin_ws/devel/lib/python3/dist-packages",
-        "/opt/ros/noetic/lib/python3/dist-packages",
-        "/usr/lib/python3/dist-packages"
+        "/home/rdv/farmily_ws/install/rbpodo_msgs/local/lib/python3.10/dist-packages",
+        "/home/rdv/farmily_ws/build/detect_tomato",
+        "/home/rdv/farmily_ws/install/detect_tomato/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
     ],
+    "cmake.sourceDirectory": "/home/rdv/farmily_ws/src/rb5_test",
+    "cmake.configureOnOpen": false,
+    "cmake.buildDirectory": "/home/rdv/farmily_ws/build",
+    "cmake.installPrefix": "/home/rdv/farmily_ws/install",
+    "ros.distro": "humble",
+    "files.associations": {
+        "*.repose": "yaml",
+        "*.world": "xml",
+        "*.urdf": "xml",
+        "*.xacro": "xml",
+        "*.launch": "xml",
+        "*.yaml": "yaml",
+        "*.yml": "yaml",
+        "jacobi": "cpp",
+        "regex": "cpp",
+        "typeinfo": "cpp",
+        "geometry": "cpp",
+        "cholesky": "cpp",
+        "core": "cpp",
+        "eigenvalues": "cpp",
+        "householder": "cpp",
+        "lu": "cpp",
+        "qr": "cpp",
+        "svd": "cpp",
+        "stdvector": "cpp"
+    },
     "clangd.path": "/usr/bin/clangd",
     "clangd.arguments": [
-        "--compile-commands-dir=/home/rdv/catkin_ws/build",
+        "--compile-commands-dir=/home/rdv/farmily_ws/build",
         "--background-index",
         "--clang-tidy",
         "--header-insertion-decorators",

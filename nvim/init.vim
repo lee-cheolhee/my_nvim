@@ -33,7 +33,7 @@ Plug 'numToStr/Comment.nvim'
 Plug 'hrsh7th/nvim-cmp'               " 자동 완성 플러그인
 Plug 'hrsh7th/cmp-nvim-lsp'           " LSP 소스 연결
 Plug 'windwp/nvim-autopairs'          " 자동 괄호 닫기 플러그인
-Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvimtools/none-ls.nvim'
 
 "*************
 " Programming Language
@@ -70,9 +70,11 @@ Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 "*************
 " git plugin
 "*************
-Plug 'github/copilot.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'github/copilot.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'CopilotC-Nvim/CopilotChat.nvim'
 
 "*************
 " ros plugin
@@ -546,6 +548,11 @@ require("noice").setup({
   popupmenu = {
     enabled = true,    -- 명령어 자동 완성 UI 활성화
   },
+  lsp = {
+    signature = {
+      enabled = false,
+    },
+  },
 })
 EOF
 
@@ -656,17 +663,17 @@ require("flutter-tools").setup {
 }
 EOF
 
-lua << EOF
-local null_ls = require("null-ls")
-
-null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.completion.spell,
-    },
-})
-EOF
+" lua << EOF
+" local null_ls = require("null-ls")
+"
+" null_ls.setup({
+"     sources = {
+"         null_ls.builtins.formatting.stylua,
+"         null_ls.builtins.diagnostics.eslint,
+"         null_ls.builtins.completion.spell,
+"     },
+" })
+" EOF
 
 "*****************************************************************************
 " rsync
@@ -717,3 +724,11 @@ function! ConfirmRsync(direction)
   endif
 endfunction
 
+"*****************************************************************************
+" Copilot Chat
+" *****************************************************************************
+lua << EOF
+require("CopilotChat").setup({
+vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat" })
+})
+EOF

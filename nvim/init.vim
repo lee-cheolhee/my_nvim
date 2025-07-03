@@ -200,13 +200,30 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<Cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts)
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" }
 -- LSP 서버 설정
 local servers = {
   pyright = {},
   clangd = {
-    cmd = { "clangd", "--compile-commands-dir=" .. vim.fn.expand("/home/rdv/catkin_ws/build") },
+    capabilities = capabilities,
+    cmd = { "clangd",
+            "--background-index",
+            "--all-scopes-completion",
+            "--clang-tidy",
+            "--header-insertion-decorators",
+            "--suggest-missing-includes",
+            "--completion-style=detailed",
+            "--pch-storage=memory",
+            "--limit-results=30",
+            "--j=6",
+            "--log=error",
+            "--header-insertion=never",
+            "--clang-tidy-checks=-*,modernize-deprecated-headers,llvm-include-order,readability-*",
+            "--compile-commands-dir=" .. vim.fn.expand("/home/rdv/farmily_ws/build") },
     root_dir = require('lspconfig/util').root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
   },
+
   dockerls = {},
   jsonls = {},
   html = {},

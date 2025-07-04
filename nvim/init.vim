@@ -680,18 +680,6 @@ require("flutter-tools").setup {
 }
 EOF
 
-" lua << EOF
-" local null_ls = require("null-ls")
-"
-" null_ls.setup({
-"     sources = {
-"         null_ls.builtins.formatting.stylua,
-"         null_ls.builtins.diagnostics.eslint,
-"         null_ls.builtins.completion.spell,
-"     },
-" })
-" EOF
-
 "*****************************************************************************
 " rsync
 " *****************************************************************************
@@ -745,7 +733,35 @@ endfunction
 " Copilot Chat
 " *****************************************************************************
 lua << EOF
-require("CopilotChat").setup({
-vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat" })
+require("CopilotChat").setup {
+  -- See Configuration section for options
+  keymaps = {
+    submit = "<C-Enter>",  -- 메시지 전송 키맵
+    scroll_up = "<C-k>",   -- 채팅 스크롤 업 키맵
+    scroll_down = "<C-j>", -- 채팅 스크롤 다운 키맵
+  },
+  window = {
+    -- layout = "left",    -- 채팅 창 위치 (left, right, top, bottom)
+    width = 50,            -- 채팅 창 너비
+  },
+ vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat" })
+}
+EOF
+
+lua << EOF
+local bg = vim.api.nvim_get_hl_by_name("Normal", true).background
+require("notify").setup({
+  background_colour = string.format("#%06x", bg or 0x000000)
 })
+EOF
+
+lua << EOF
+vim.on_key(function(char)
+  if vim.fn.mode() == "n" then
+    local code = vim.fn.char2nr(char)
+    if code >= 44032 and code <= 55203 then
+      return ""  -- 반드시 빈 문자열 반환
+    end
+  end
+end, vim.api.nvim_create_namespace("ignore_hangul_in_normal"))
 EOF

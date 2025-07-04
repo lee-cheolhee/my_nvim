@@ -12,7 +12,6 @@ vim.schedule(function()
   local mason_path = vim.fn.stdpath("data") .. "/site/pack/plugins/start/mason.nvim"
   if vim.fn.isdirectory(mason_path) ~= 0 then
     require("plugins.alpha")
-    require("plugins.build_tools")
     require("plugins.cmp")
     require("plugins.copilot")
     require("plugins.dap")
@@ -23,7 +22,8 @@ vim.schedule(function()
     require("plugins.ui")
 
     require("theme.catppuccin")
-    -- 유틸 (rsync 단축키 등)
+    -- 유틸
+    require("utils.build_tools")
     require("utils.rsync")
   else
     print("⚠️ mason.nvim 아직 설치되지 않았습니다. Neovim 재시작 후 다시 시도하세요.")

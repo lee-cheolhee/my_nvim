@@ -12,6 +12,7 @@ vim.schedule(function()
   local mason_path = vim.fn.stdpath("data") .. "/site/pack/plugins/start/mason.nvim"
   if vim.fn.isdirectory(mason_path) ~= 0 then
     require("plugins.alpha")
+    require("plugins.build_tools")
     require("plugins.cmp")
     require("plugins.copilot")
     require("plugins.dap")

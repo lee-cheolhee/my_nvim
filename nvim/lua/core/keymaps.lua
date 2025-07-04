@@ -5,7 +5,7 @@ vim.g.mapleader = ","
 map("n", "<leader>h", ":nohlsearch<CR>", { silent = true })
 map("n", "<leader>tn", ":set nonumber norelativenumber<CR>")
 map("n", "<leader>tnr", ":set number relativenumber<CR>")
-map("n", "<leader>r", ":redo<CR>", { silent = true })
+map("n", "<leader>u", ":redo<CR>", { silent = true })
 
 -- 클립보드
 map({ "n", "v" }, "<leader>y", '"+y', { silent = true })

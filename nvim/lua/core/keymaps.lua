@@ -11,3 +11,14 @@ map("n", "<leader>u", ":redo<CR>", { silent = true })
 map({ "n", "v" }, "<leader>y", '"+y', { silent = true })
 map("n", "<leader>p", '"+p', { silent = true })
 map("n", "<leader>y", ':echo @"<CR>', { silent = true })
+
+
+-- 경고 표시
+map("n", "gl", vim.diagnostic.open_float, { desc = "Show diagnostics under cursor" })
+-- 🔍 진단 전체 보기: Telescope diagnostics
+map("n", "<leader>gl", "<cmd>Telescope diagnostics<CR>", {
+  desc = "Show all diagnostics via Telescope",
+  silent = true,
+})
+
+

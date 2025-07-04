@@ -5,7 +5,7 @@
 -------------------------------------------------
 local exclude = {
   ".git", ".DS_Store", ".idea", ".vscode",
-  "build/", "devel/", "install/", "log/", "logs/",
+  "build/", "devel/", "log/", "logs/",
   "*.log", "cache/"
 }
 

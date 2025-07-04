@@ -73,5 +73,5 @@ end
 vim.keymap.set("n", "<leader>cb", function() confirm_and_run("build") end,
   { desc = "[catkin/colcon] Build (prompt)", silent = true })
 
-vim.keymap.set("n", "<leader>cc", function() confirm_and_run("clean") end,
+vim.keymap.set("n", "<leader>cl", function() confirm_and_run("clean") end,
   { desc = "[catkin/colcon] Clean (prompt)", silent = true })

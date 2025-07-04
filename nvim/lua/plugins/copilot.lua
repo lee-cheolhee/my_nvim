@@ -1,43 +1,19 @@
 require("copilot").setup({
   suggestion = {
     enabled = true,
-    auto_trigger = true,
+    auto_trigger = true,  -- ✨ 꼭 필요!
     debounce = 75,
+    keymap = {
+      accept = "<C-j>",    -- 인라인 제안 수락 키맵
+      next = "<C-l>",      -- 다음 제안으로 이동 키맵
+      prev = "<C-h>",      -- 이전 제안으로 이동 키맵
+      dismiss = "<C-e>",   -- 제안 거부 키맵
+    },
   },
   panel = { enabled = true },
 })
 -- Copilot: TAB 키 기본 매핑 제거
 vim.g.copilot_no_tab_map = true
-
--- Copilot 인라인 수락
-vim.keymap.set("i", "<C-j>", 'copilot#Accept("<CR>")', {
-  expr = true,
-  silent = true,
-  script = true,
-  desc = "Copilot Accept Suggestion",
-})
-
--- Copilot 다음 제안으로 이동
-vim.keymap.set("i", "<C-l>", 'copilot#Next()', {
-  expr = true,
-  silent = true,
-  script = true,
-  desc = "Copilot Next Suggestion",
-})
-
--- Copilot 이전 제안으로 이동
-vim.keymap.set("i", "<C-h>", 'copilot#Previous()', {
-  expr = true,
-  silent = true,
-  script = true,
-  desc = "Copilot Previous Suggestion",
-})
-
--- Copilot 패널 열기 (노멀 모드)
-vim.keymap.set("n", "<C-p>", ":Copilot panel<CR>", {
-  silent = true,
-  desc = "Open Copilot Panel",
-})
 
 require("CopilotChat").setup {
   -- See Configuration section for options

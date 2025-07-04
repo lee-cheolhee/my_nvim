@@ -1,6 +1,10 @@
 require("copilot").setup({
-  suggestion = { enabled = true },
-  panel      = { enabled = true },
+  suggestion = {
+    enabled = true,
+    auto_trigger = true,
+    debounce = 75,
+  },
+  panel = { enabled = true },
 })
 -- Copilot: TAB 키 기본 매핑 제거
 vim.g.copilot_no_tab_map = true

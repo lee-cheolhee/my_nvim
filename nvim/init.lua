@@ -21,8 +21,10 @@ vim.schedule(function()
     require("plugins.treesitter")
     require("plugins.ui")
 
-    require("theme.catppuccin")
-    -- 유틸
+    -- require("theme.catppuccin")
+    -- require("theme.tokyonight")
+    require("theme.github")
+    -- 유틸 (rsync 단축키 등)
     require("utils.build_tools")
     require("utils.rsync")
     require("utils.terminal")

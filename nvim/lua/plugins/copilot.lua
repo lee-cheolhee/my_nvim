@@ -10,10 +10,11 @@ require("copilot").setup({
       dismiss = "<C-e>",   -- 제안 거부 키맵
     },
   },
-  panel = { enabled = true },
+  panel      = { enabled = true },
 })
 -- Copilot: TAB 키 기본 매핑 제거
 vim.g.copilot_no_tab_map = true
+
 
 require("CopilotChat").setup {
   -- See Configuration section for options
@@ -24,7 +25,7 @@ require("CopilotChat").setup {
   },
   window = {
     -- layout = "left",    -- 채팅 창 위치 (left, right, top, bottom)
-    width = 50,            -- 채팅 창 너비
+    width = 80,            -- 채팅 창 너비
   },
 }
 vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<CR>", { desc = "Toggle Copilot Chat" })

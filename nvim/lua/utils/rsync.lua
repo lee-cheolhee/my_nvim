@@ -21,8 +21,8 @@ end
 -------------------------------------------------
 -- 2. Rsync 커맨드 생성 --------------------------
 -------------------------------------------------
-local LOCAL_BASE  = "~/catkin_ws/src/"
-local REMOTE_BASE = "rdv@host:/home/rdv/path/"
+local LOCAL_BASE  = "~/farmily_ws/src/"
+local REMOTE_BASE = "rdv@192.168.75.4:/home/rdv/rdv_farmily/"
 
 local function rsync(direction, subpath)
   local from, to
@@ -84,16 +84,3 @@ map("n", "<leader>ru", function() confirm_rsync("up") end,
   { silent = true, desc = "Rsync UP  (local → remote)" })
 map("n", "<leader>rd", function() confirm_rsync("down") end,
   { silent = true, desc = "Rsync DOWN (remote → local)" })
-
--------------------------------------------------
--- ✔︎ 끝! ---------------------------------------
--------------------------------------------------
--- ⚡️ 사용 예시:
---   · <leader>ru                → 동기화 올려보내기 (확인 창 뜸)
---   · <leader>rd                → 동기화 내려받기 (확인 창 뜸)
---   · :RsyncUp                  → 전체 local → remote 복사
---   · :RsyncUp packages/pkg_a   → packages/pkg_a만 복사
---   · :RsyncDown                → 전체 remote → local 복사
---   · :RsyncDown sensor_driver  → 해당 폴더만 내려받기
-
--- 필요하면 LOCAL_SRC / REMOTE_SRC, rsync 옵션 등을 마음껏 커스터마이징하세요.

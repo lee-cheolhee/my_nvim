@@ -10,10 +10,17 @@ local install_path = vim.fn.stdpath("data") .. "/site/pack/plugins/start/"
 local plugins = {
   -- ☆ 종속성 / Utility
   { repo = "nvim-lua/plenary.nvim" },
+  { repo = "MunifTanjim/nui.nvim", name = "nui.nvim" }, -- noice.nvim 의 필수 종속성
 
   -- ☆ 테마 & UI
   { repo = "catppuccin/nvim", name = "catppuccin" },
-  { repo = "MunifTanjim/nui.nvim" }, -- noice.nvim 의 필수 종속성
+  { repo = "folke/tokyonight.nvim" },
+  { repo = "projekt0n/github-nvim-theme", name = 'github-theme' },
+
+  { repo = "folke/which-key.nvim" },
+  { repo = "folke/zen-mode.nvim" },
+  { repo = "folke/twilight.nvim" },
+  { repo = "folke/edgy.nvim" },
   { repo = "folke/noice.nvim" },
   { repo = "rcarriga/nvim-notify" },
   { repo = "goolord/alpha-nvim" },

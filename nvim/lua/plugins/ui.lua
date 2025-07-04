@@ -2,7 +2,7 @@
 require("nvim-tree").setup {
     view = {
         width = 60,          -- 탐색기 너비 설정
-        side = "left",       -- 탐색기 위치 (left, right)
+        side = "right",       -- 탐색기 위치 (left, right)
     },
     filters = {
         dotfiles = true,     -- 숨김 파일 표시 여부
@@ -178,3 +178,23 @@ require("noice").setup({
   },
 })
 
+require("edgy").setup({
+  bottom = {
+    { ft = "toggleterm", size = 15 },
+    { ft = "qf", title = "QuickFix" },
+  },
+  right = {
+    { ft = "aerial", title = "Outline" },
+  },
+})
+
+require("twilight").setup()
+require("zen-mode").setup {
+  window = {
+    width = 80,
+    options = {
+      number = false,
+      relativenumber = false,
+    },
+  },
+}

@@ -1,4 +1,6 @@
--- ⚙️  Rsync helper utilities for FARMILY robots
+-- ⚙️   Rsync helper utilities for FARMILY robots
+
+local term = require("utils.terminal")  -- ⬅️ popup terminal 유틸
 
 -------------------------------------------------
 -- 1. 파일·디렉터리 제외 목록 -------------------
@@ -9,7 +11,6 @@ local exclude = {
   "*.log", "cache/"
 }
 
--- → "--exclude=\"foo\" --exclude=\"bar\" …" 형태의 문자열로 변환
 local function build_exclude_opts()
   return table.concat(
     vim.tbl_map(function(item) return (' --exclude="%s"'):format(item) end, exclude),
@@ -20,28 +21,9 @@ end
 -------------------------------------------------
 -- 2. Rsync 커맨드 생성 --------------------------
 -------------------------------------------------
--- 🏠 로컬·원격 경로(취향껏 수정!)
-local LOCAL_SRC  = "~/catkin_ws/src/"
-local REMOTE_SRC = "rdv@host:/home/rdv/path/"
-
-vim.api.nvim_create_user_command("RsyncUp", function()
-  local cmd = ("!rsync -avz --progress%s %s %s"):format(
-    build_exclude_opts(), LOCAL_SRC, REMOTE_SRC
-  )
-  vim.cmd(cmd)
-end, { desc = "Sync ⬆︎  local → remote" })
-
-vim.api.nvim_create_user_command("RsyncDown", function()
-  local cmd = ("!rsync -avz --progress%s %s %s"):format(
-    build_exclude_opts(), REMOTE_SRC, LOCAL_SRC
-  )
-  vim.cmd(cmd)
-end, { desc = "Sync ⬇︎  remote → local" })
--- 기본 경로 설정
 local LOCAL_BASE  = "~/catkin_ws/src/"
 local REMOTE_BASE = "rdv@host:/home/rdv/path/"
 
--- 유연하게 폴더를 인자로 받아 복사
 local function rsync(direction, subpath)
   local from, to
   local suffix = subpath and (subpath .. "/") or ""
@@ -54,13 +36,16 @@ local function rsync(direction, subpath)
     to   = LOCAL_BASE .. suffix
   end
 
-  local cmd = ("!rsync -avz --progress%s %s %s"):format(
+  local cmd = ("rsync -avz --progress%s %s %s"):format(
     build_exclude_opts(), from, to
   )
-  vim.cmd(cmd)
+
+  term.run_in_popup_terminal(cmd) -- 💥 popup 터미널로 실행
 end
 
--- :RsyncUp [subpath]
+-------------------------------------------------
+-- 3. User Command 정의 --------------------------
+-------------------------------------------------
 vim.api.nvim_create_user_command("RsyncUp", function(opts)
   rsync("up", opts.args ~= "" and opts.args or nil)
 end, {
@@ -69,7 +54,6 @@ end, {
   complete = "dir"
 })
 
--- :RsyncDown [subpath]
 vim.api.nvim_create_user_command("RsyncDown", function(opts)
   rsync("down", opts.args ~= "" and opts.args or nil)
 end, {
@@ -79,13 +63,13 @@ end, {
 })
 
 -------------------------------------------------
--- 3. 실행 전 확인 프롬프트 ----------------------
+-- 4. 실행 전 확인 프롬프트 ----------------------
 -------------------------------------------------
 local function confirm_rsync(direction)
   local sub = vim.fn.input("Subfolder to sync (empty = all): ")
   local path = sub ~= "" and sub or nil
-  local choice = vim.fn.input(("Rsync %s %s ? (y/n): "):format(direction, sub))
-  if choice:lower() == "y" then
+  local choice = vim.fn.input(("Rsync %s %s ? (Y/n): "):format(direction, sub))
+  if choice == "" or choice:lower() == "y" then
     rsync(direction, path)
   else
     vim.notify("Rsync canceled", vim.log.levels.INFO)
@@ -93,13 +77,13 @@ local function confirm_rsync(direction)
 end
 
 -------------------------------------------------
--- 4. 편리한 키매핑 ------------------------------
+-- 5. 키매핑 -------------------------------------
 -------------------------------------------------
 local map = vim.keymap.set
 map("n", "<leader>ru", function() confirm_rsync("up") end,
-    { silent = true, desc = "Rsync UP  (local → remote)" })
+  { silent = true, desc = "Rsync UP  (local → remote)" })
 map("n", "<leader>rd", function() confirm_rsync("down") end,
-    { silent = true, desc = "Rsync DOWN (remote → local)" })
+  { silent = true, desc = "Rsync DOWN (remote → local)" })
 
 -------------------------------------------------
 -- ✔︎ 끝! ---------------------------------------

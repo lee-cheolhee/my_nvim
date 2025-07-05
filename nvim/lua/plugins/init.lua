@@ -35,6 +35,9 @@ local plugins = {
 
   -- ☆ 코드 하이라이트 및 구조
   { repo = "nvim-treesitter/nvim-treesitter" },
+  { repo = "kevinhwang91/nvim-ufo" },
+  { repo = "kevinhwang91/promise-async" }, -- 의존성
+  { repo = "L3MON4D3/LuaSnip" },
 
   -- ☆ LSP / 자동완성
   { repo = "neovim/nvim-lspconfig" },
@@ -82,3 +85,41 @@ vim.defer_fn(function()
     vim.cmd("Alpha")
   end
 end, 50)
+
+----------------------------------------------------------------------
+-- 1) 모든 플러그인 git pull / clone  -------------------------------
+----------------------------------------------------------------------
+local function update_plugins()
+  -- ① 업데이트용 bash 스크립트 한 덩어리 만들기
+  local lines = { "set -e" }
+  for _, plugin in ipairs(plugins) do
+    local name = plugin.name or plugin.repo:match(".*/(.*)")
+    local path = install_path .. name
+    table.insert(lines, string.format([[
+      if [ -d "%s" ]; then
+        echo "🔄  updating %s ..."
+        git -C "%s" pull --ff-only
+      else
+        echo "🌱  cloning  %s ..."
+        git clone --depth 1 https://github.com/%s "%s"
+      fi
+      ]], path, name, path, name, plugin.repo, path))
+  end
+  table.insert(lines, 'echo "✅  all plugins up-to-date!"')
+
+  -- ② bash -c "여러 줄 스크립트" 형태로 실행
+  local bash_script = table.concat(lines, "\n")
+  require("utils.terminal").run_in_popup_terminal(
+    { "bash", "-c", bash_script }
+  )
+-- vim.notify("✅ 플러그인 업데이트 완료!", vim.log.levels.INFO)
+end
+
+
+----------------------------------------------------------------------
+-- 2) 명령어 & 키맵 & 알파 버튼 --------------------------------------
+----------------------------------------------------------------------
+-- :PlugUpdate 명령
+vim.api.nvim_create_user_command("PlugUpdate", function()
+  update_plugins()
+end, { desc = "Git pull all custom-managed plugins" })

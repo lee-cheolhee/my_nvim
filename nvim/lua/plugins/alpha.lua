@@ -5,6 +5,18 @@ local dashboard = require("alpha.themes.dashboard")
 
 dashboard.section.header.val = {
     "                                                      ", 
+    "                                                      ", 
+    "             A New Family for Farmers.                ",
+    " We are creating the intelligent agricultural robot,  ",
+    "                                                      ", 
+    "                                                      ", 
+    "                                                      ", 
+}
+dashboard.section.footer.val = {
+    "                                                      ", 
+    "                                                      ", 
+    "                                                      ", 
+    "                                                      ", 
     " ███████╗ █████╗ ██████╗ ███╗   ███╗██╗██╗  ██╗   ██╗ ",
     " ██╔════╝██╔══██╗██╔══██╗████╗ ████║██║██║  ╚██╗ ██╔╝ ",
     " █████╗  ███████║██████╔╝██╔████╔██║██║██║   ╚████╔╝  ",
@@ -16,26 +28,26 @@ dashboard.section.header.val = {
 
 -- 메뉴 버튼 설정
 dashboard.section.buttons.val = {
-  dashboard.button("e", "📄 > 새 파일 열기", ":ene <BAR> startinsert <CR>"),
-  dashboard.button("f", "🔎 > 파일 찾기", ":Telescope find_files <CR>"),
-  dashboard.button("r", "🗂️ > 최근 파일", ":Telescope oldfiles <CR>"),
-  dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
-  dashboard.button("q", "❌ > 종료", ":qa<CR>"),
+  dashboard.button("e", "📄 > 새 파 일 열 기", ":ene <BAR> startinsert <CR>"),
+  dashboard.button("f", "🔎 > 파 일 찾 기", ":Telescope find_files <CR>"),
+  dashboard.button("r", "🗂️ > 최 근 파 일", ":Telescope oldfiles <CR>"),
+  dashboard.button("g", "🔍 > grep 문자열 찾기", ":Telescope live_grep<CR>"),
+  dashboard.button("p", "📁 > 프로젝트 목록", ":Telescope projects<CR>"),
+  dashboard.button("a", "🚀 > Launch 파일 탐색", ":Telescope find_files search_dirs=src prompt_title=launch<CR>"),
+  dashboard.button("s", "💾 > 세션 복원", ":SessionManager load_session<CR>"),
+  dashboard.button("u", "⬆️ > 플러그인 업데이트", ":PlugUpdate<CR>"),
+  -- dashboard.button("l", "📜 > LSP 로그 열기", ":e $HOME/.cache/nvim/lsp.log<CR>"),
+  dashboard.button("c", "⚙️ > Neovim 설정 열기", ":e ~/.config/nvim/init.lua<CR>"),
+  dashboard.button("z", "🧠 > Copilot Chat 열기", ":CopilotChatToggle<CR>"),
+  dashboard.button("q", "❌>  종 료", ":qa<CR>"),
 }
 
-local function footer()
- return "Welcome to FARMILY! 🦾 "
-end
-
-dashboard.section.footer.val = footer()
--- 색상 적용 (선택 사항)
--- dashboard.section.header.opts.hl = "Type"
--- dashboard.section.buttons.opts.hl = "Function"
 dashboard.section.header.opts.hl = "Include"
 dashboard.section.buttons.opts.hl = "Keyword"
 dashboard.section.footer.opts.hl = "Type"
+
 dashboard.opts.opts.noautocmd = true 
+
 -- 시작 화면 설정 적용
-alpha.setup(dashboard.opts)
--- alpha.setup(dashboard.config)
+alpha.setup(dashboard.config)
 

@@ -1,3 +1,7 @@
+-- UI 관련 설정
+-- colorscheme 설정
+vim.cmd("colorscheme github_dark_colorblind")
+
 -- NvimTree
 require("nvim-tree").setup {
     view = {

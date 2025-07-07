@@ -3,12 +3,12 @@ local mlsp = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
 
 mason.setup()
-mlsp.setup {
-  ensure_installed = { 
-        "clangd", "pyright", "dockerls", "jsonls", "yamlls", "bashls",
-    },
-}
-
+-- mlsp.setup {
+--   ensure_installed = { 
+--         "clangd", "pyright", "dockerls", "jsonls", "yamlls", "bashls",
+--     },
+-- }
+--
 -- 공통 on_attach
 local function on_attach(_, bufnr)
   vim.diagnostic.config({
@@ -61,7 +61,7 @@ lspconfig.clangd.setup({
   --   "--log=error",
   --   "--header-insertion=never",
   --   "--clang-tidy-checks=-*,modernize-deprecated-headers,llvm-include-order,readability-*",
-  --   "--compile-commands-dir=" .. vim.fn.expand("/home/rdv/farmily_ws/build") 
+  --   "--compile-commands-dir=" .. vim.fn.expand("/home/rdv/catkin_ws/build") 
   -- },
   root_dir = lspconfig.util.root_pattern("compile_commands.json", ".git"),
 })

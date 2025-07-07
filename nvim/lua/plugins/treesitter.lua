@@ -1,3 +1,16 @@
+-- require("nvim-treesitter.configs").setup({
+--   ensure_installed = {
+--     "c", "cpp", "python", "bash", "json", "yaml",
+--     "dockerfile", "cmake", "lua"
+--   },
+--   highlight = { enable = true },
+--   indent     = { enable = true },
+--   incremental_selection = { enable = true },
+-- })
+--
+-- vim.opt.foldmethod, vim.opt.foldexpr, vim.opt.foldlevel = "expr",
+--   "nvim_treesitter#foldexpr()", 99
+
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     "c", "cpp", "cmake", 
@@ -32,3 +45,4 @@ require("nvim-autopairs").setup {
 -- nvim-cmp와 nvim-autopairs 연동
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
+

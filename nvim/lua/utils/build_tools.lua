@@ -1,7 +1,7 @@
 -- ~/.config/nvim/lua/plugins/build_tools.lua
 -- local term = require("utils.terminal")
 
-vim.g.build_tool = "colcon"            -- 필요할 때 "colcon" 으로 토글
+vim.g.build_tool = "catkin"            -- 필요할 때 "colcon" 으로 토글
 
 ----------------------------------------------------------------------
 -- 명령 문자열 빌더 (패키지 선택 지원)

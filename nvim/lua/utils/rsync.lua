@@ -21,8 +21,8 @@ end
 -------------------------------------------------
 -- 2. Rsync 커맨드 생성 --------------------------
 -------------------------------------------------
-local LOCAL_BASE  = "~/farmily_ws/src/"
-local REMOTE_BASE = "rdv@192.168.75.4:/home/rdv/rdv_farmily/"
+local LOCAL_BASE  = "~/catkin_ws/src/"
+local REMOTE_BASE = "rdv@192.168.50.2:/home/rdv/ms_amr/"
 
 local function rsync(direction, subpath)
   local from, to

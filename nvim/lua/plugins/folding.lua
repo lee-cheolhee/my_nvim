@@ -31,3 +31,13 @@ vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'  -- 기존 foldexpr는 여�
 vim.keymap.set('n', 'zK', function()
   require('ufo').peekFoldedLinesUnderCursor()
 end, { desc = "폴딩 미리보기 (ufo)" })
+
+-- -- Fold 설정
+-- vim.opt.foldmethod = 'expr'
+-- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- vim.opt.foldlevel = 99
+--
+-- -- Fold 키 매핑
+-- vim.api.nvim_set_keymap('n', '<leader>zR', 'zR', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>zM', 'zM', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>za', 'za', { noremap = true, silent = true })

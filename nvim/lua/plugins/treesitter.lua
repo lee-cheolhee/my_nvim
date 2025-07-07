@@ -32,13 +32,3 @@ require("nvim-autopairs").setup {
 -- nvim-cmp와 nvim-autopairs 연동
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
-
--- -- Fold 설정
--- vim.opt.foldmethod = 'expr'
--- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
--- vim.opt.foldlevel = 99
---
--- -- Fold 키 매핑
--- vim.api.nvim_set_keymap('n', '<leader>zR', 'zR', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>zM', 'zM', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>za', 'za', { noremap = true, silent = true })

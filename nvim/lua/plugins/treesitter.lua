@@ -1,16 +1,3 @@
--- require("nvim-treesitter.configs").setup({
---   ensure_installed = {
---     "c", "cpp", "python", "bash", "json", "yaml",
---     "dockerfile", "cmake", "lua"
---   },
---   highlight = { enable = true },
---   indent     = { enable = true },
---   incremental_selection = { enable = true },
--- })
---
--- vim.opt.foldmethod, vim.opt.foldexpr, vim.opt.foldlevel = "expr",
---   "nvim_treesitter#foldexpr()", 99
-
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     "c", "cpp", "cmake", 
@@ -46,3 +33,12 @@ require("nvim-autopairs").setup {
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
 
+-- -- Fold 설정
+-- vim.opt.foldmethod = 'expr'
+-- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- vim.opt.foldlevel = 99
+--
+-- -- Fold 키 매핑
+-- vim.api.nvim_set_keymap('n', '<leader>zR', 'zR', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>zM', 'zM', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>za', 'za', { noremap = true, silent = true })

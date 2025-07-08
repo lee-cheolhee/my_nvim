@@ -131,12 +131,11 @@ require("noice").setup({
   },
 })
 
--- nvim-comment
-require("nvim_comment").setup({
-  line_mapping = "<C-/>",  -- 라인 주석 단축키, leader + /
-  operator_mapping = "<C-/>",  -- 선택 영역 주석 단축키
-  comment_empty = false,  -- 빈 줄 주석 처리 여부
-  create_mappings = false,  -- 기본 매핑 생성 여부
+require("Comment").setup({
+  mappings = {
+    basic = false,  -- gc, gb 같은 기본 매핑 꺼버림
+    extra = false,
+  }
 })
 
 -- notify

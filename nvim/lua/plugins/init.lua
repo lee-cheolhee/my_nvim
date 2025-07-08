@@ -60,7 +60,7 @@ local plugins = {
 
   -- ☆ 기타
   { repo = "lukas-reineke/indent-blankline.nvim" },
-  { repo = "terrortylor/nvim-comment"}
+  { repo = "numToStr/Comment.nvim" },
 }
 
 -- 플러그인마다 존재 여부 확인 후 git clone

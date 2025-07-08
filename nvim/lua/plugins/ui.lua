@@ -145,13 +145,13 @@ require("noice").setup({
   },
 })
 
--- Comment
-require('Comment').setup {
-    mappings = {
-        basic = true,    -- 기본 키 매핑 사용
-        extra = true,    -- 추가 키 매핑 사용
-    },
-}
+-- nvim-comment
+require("nvim_comment").setup({
+  line_mapping = "<C-/>",  -- 라인 주석 단축키, leader + /
+  operator_mapping = "<C-/>",  -- 선택 영역 주석 단축키
+  comment_empty = false,  -- 빈 줄 주석 처리 여부
+  create_mappings = false,  -- 기본 매핑 생성 여부
+})
 
 -- notify
 local colors = require("catppuccin.palettes").get_palette("mocha")
@@ -161,25 +161,6 @@ require("notify").setup({
 --   background_colour = "#1e1e2e", -- Catppuccin Mocha 테마와 어울리는 어두운 색
   -- background_colour = colors.base,
   background_colour = string.format("#%06x", bg or 0x000000)
-})
-
-require("noice").setup({
-  cmdline = {
-    enabled = true,
-    view = "cmdline_popup",  -- 명령줄 UI 스타일 ("cmdline_popup"도 가능)
-  },
-  messages = {
-    enabled = true,    -- Neovim의 메시지 UI 개선
-    view = "mini", -- 메시지를 작은 팝업 창으로 표시
-  },
-  popupmenu = {
-    enabled = true,    -- 명령어 자동 완성 UI 활성화
-  },
-  lsp = {
-    signature = {
-      enabled = false,
-    },
-  },
 })
 
 require("edgy").setup({

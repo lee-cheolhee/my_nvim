@@ -29,11 +29,43 @@ vim.keymap.set("n", "<leader>d",  ":bdelete<CR>",              { silent = true }
 vim.keymap.set("n", "<leader>p",  ":BufferLinePick<CR>",       { silent = true })
 vim.keymap.set("n", "<leader>pd", ":BufferLinePickClose<CR>",  { silent = true })
 
--- " 현재 버퍼를 왼쪽 창으로 옮기기
-vim.keymap.set("n", "<Leader>h", ":wincmd h | b#<CR>", { silent = true })
--- " 현재 버퍼를 아래 창으로 옮기기
-vim.keymap.set("n", "<Leader>j", ":wincmd j | b#<CR>", { silent = true })
--- " 현재 버퍼를 위 창으로 옮기기
-vim.keymap.set("n", "<Leader>k", ":wincmd k | b#<CR>", { silent = true })
--- " 현재 버퍼를 오른쪽 창으로 옮기기
-vim.keymap.set("n", "<Leader>l", ":wincmd l | b#<CR>", { silent = true })
+local function move_buf_to_split(dir)
+  local bufnr = vim.api.nvim_get_current_buf()
+  local cur_win = vim.api.nvim_get_current_win()
+
+  -- 시도: 해당 방향으로 이동
+  vim.cmd("wincmd " .. dir)
+  local moved_win = vim.api.nvim_get_current_win()
+
+  -- 이동 실패했으면 split 강제 생성 + 이동
+  if moved_win == cur_win then
+    if dir == "h" then
+      vim.cmd("leftabove vsplit")
+    elseif dir == "l" then
+      vim.cmd("rightbelow vsplit")
+    elseif dir == "j" then
+      vim.cmd("belowright split")
+    elseif dir == "k" then
+      vim.cmd("aboveleft split")
+    end
+    vim.cmd("wincmd " .. dir)  -- 생성 후 다시 이동
+    moved_win = vim.api.nvim_get_current_win()
+  end
+
+  -- 현재 창에 버퍼를 띄우고
+  vim.cmd("buffer " .. bufnr)
+  vim.fn.win_gotoid(cur_win)
+  local altbuf = vim.fn.bufnr('#')  -- "이전" 버퍼
+  if altbuf == -1 or altbuf == bufnr then
+    vim.cmd('enew')                -- 대체 버퍼 없으면 빈 버퍼
+  else
+    vim.cmd('buffer ' .. altbuf)   -- 다른 버퍼 보여주기
+  end
+
+end
+-- 키맵 등록
+vim.keymap.set("n", "<Leader>h", function() move_buf_to_split("h") end, { desc = "Move buffer left", silent = true })
+vim.keymap.set("n", "<Leader>j", function() move_buf_to_split("j") end, { desc = "Move buffer down", silent = true })
+vim.keymap.set("n", "<Leader>k", function() move_buf_to_split("k") end, { desc = "Move buffer up", silent = true })
+vim.keymap.set("n", "<Leader>l", function() move_buf_to_split("l") end, { desc = "Move buffer right", silent = true })
+

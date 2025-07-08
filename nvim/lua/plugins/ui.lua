@@ -76,20 +76,6 @@ require('bufferline').setup {
         separator_style = "slant", -- 버퍼 사이의 구분선 스타일
     }
 }
-vim.keymap.set("n", "<leader>z",  ":BufferLineCyclePrev<CR>",  { silent = true })
-vim.keymap.set("n", "<leader>x",  ":BufferLineCycleNext<CR>",  { silent = true })
-vim.keymap.set("n", "<leader>d",  ":bdelete<CR>",              { silent = true })
-vim.keymap.set("n", "<leader>p",  ":BufferLinePick<CR>",       { silent = true })
-vim.keymap.set("n", "<leader>pd", ":BufferLinePickClose<CR>",  { silent = true })
-
--- " 현재 버퍼를 왼쪽 창으로 옮기기
--- nnoremap <silent> <Leader>h :wincmd h \| b#<CR>
--- " 현재 버퍼를 아래 창으로 옮기기
--- nnoremap <Leader>j :wincmd j \| b#<CR>
--- " 현재 버퍼를 위 창으로 옮기기
--- nnoremap <Leader>k :wincmd k \| b#<CR>
--- " 현재 버퍼를 오른쪽 창으로 옮기기
--- nnoremap <Leader>l :wincmd l \| b#<CR>
 
 -- Indent guides
 require("ibl").setup {

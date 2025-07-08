@@ -22,3 +22,18 @@ map("n", "<leader>gl", "<cmd>Telescope diagnostics<CR>", {
 })
 
 
+-- buffer 
+vim.keymap.set("n", "<leader>z",  ":BufferLineCyclePrev<CR>",  { silent = true })
+vim.keymap.set("n", "<leader>x",  ":BufferLineCycleNext<CR>",  { silent = true })
+vim.keymap.set("n", "<leader>d",  ":bdelete<CR>",              { silent = true })
+vim.keymap.set("n", "<leader>p",  ":BufferLinePick<CR>",       { silent = true })
+vim.keymap.set("n", "<leader>pd", ":BufferLinePickClose<CR>",  { silent = true })
+
+-- " 현재 버퍼를 왼쪽 창으로 옮기기
+vim.keymap.set("n", "<Leader>h", ":wincmd h | b#<CR>", { silent = true })
+-- " 현재 버퍼를 아래 창으로 옮기기
+vim.keymap.set("n", "<Leader>j", ":wincmd j | b#<CR>", { silent = true })
+-- " 현재 버퍼를 위 창으로 옮기기
+vim.keymap.set("n", "<Leader>k", ":wincmd k | b#<CR>", { silent = true })
+-- " 현재 버퍼를 오른쪽 창으로 옮기기
+vim.keymap.set("n", "<Leader>l", ":wincmd l | b#<CR>", { silent = true })

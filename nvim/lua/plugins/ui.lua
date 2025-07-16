@@ -153,8 +153,12 @@ require("edgy").setup({
     { ft = "toggleterm", size = 15 },
     { ft = "qf", title = "QuickFix" },
   },
-  right = {
+  left = {
     { ft = "aerial", title = "Outline" },
+    { ft = "CopilotChat", title = "Copilot" },
+  },
+  right = {
+    { ft = "NvimTree", title = "Explorer" },
   },
 })
 

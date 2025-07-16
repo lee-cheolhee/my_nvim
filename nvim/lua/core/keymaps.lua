@@ -64,22 +64,22 @@ local function move_buf_to_split(dir)
 
 end
 -- 키맵 등록
-vim.keymap.set("n", "<Leader>h", function() move_buf_to_split("h") end, { desc = "Move buffer left", silent = true })
-vim.keymap.set("n", "<Leader>j", function() move_buf_to_split("j") end, { desc = "Move buffer down", silent = true })
-vim.keymap.set("n", "<Leader>k", function() move_buf_to_split("k") end, { desc = "Move buffer up", silent = true })
-vim.keymap.set("n", "<Leader>l", function() move_buf_to_split("l") end, { desc = "Move buffer right", silent = true })
+vim.keymap.set("n", "<leader>h", function() move_buf_to_split("h") end, { desc = "Move buffer left", silent = true })
+vim.keymap.set("n", "<leader>j", function() move_buf_to_split("j") end, { desc = "Move buffer down", silent = true })
+vim.keymap.set("n", "<leader>k", function() move_buf_to_split("k") end, { desc = "Move buffer up", silent = true })
+vim.keymap.set("n", "<leader>l", function() move_buf_to_split("l") end, { desc = "Move buffer right", silent = true })
 
 -- ✅ Ctrl + Space → Linewise toggle
-vim.keymap.set("n", "<C-/>", require("Comment.api").toggle.linewise.current, { desc = "Toggle line comment" })
-vim.keymap.set("v", "<C-/>", function()
+vim.keymap.set("n", "<leader>/", require("Comment.api").toggle.linewise.current, { desc = "Toggle line comment" })
+vim.keymap.set("v", "<leader>/", function()
   local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
   vim.api.nvim_feedkeys(esc, "x", false)
   require("Comment.api").toggle.linewise(vim.fn.visualmode())
 end, { desc = "Visual toggle line comment" })
 
 -- ✅ Alt + / → Blockwise toggle
-vim.keymap.set("n", "<leader>/", require("Comment.api").toggle.blockwise.current, { desc = "Toggle block comment" })
-vim.keymap.set("v", "<leader>/", function()
+vim.keymap.set("n", "<M-/>", require("Comment.api").toggle.blockwise.current, { desc = "Toggle block comment" })
+vim.keymap.set("v", "<M-/>", function()
   local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
   vim.api.nvim_feedkeys(esc, "x", false)
   require("Comment.api").toggle.blockwise(vim.fn.visualmode())
